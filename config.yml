@@ -1,62 +1,26 @@
-# 外部服务管理器配置文件
-
-# 服务管理配置
-service_management:
-  # 服务启动超时时间（秒）
-  startup_timeout: 60
-  
-  # 服务停止超时时间（秒）
-  shutdown_timeout: 30
-  
-  # 健康检查间隔（秒）
-  health_check_interval: 10
-  
-  # 重试次数
-  max_retries: 3
-
-# 状态文件配置
-state_management:
-  # 状态文件路径（相对于此配置文件）
-  state_file: "service_state.json"
-  
-  # 是否自动保存状态
-  auto_save: true
-  
-  # 状态保存间隔（秒）
-  save_interval: 30
-
-# 日志配置
-logging:
-  # 日志级别
-  level: INFO
-  
-  # 日志文件路径
-  log_file: "external_service_manager.log"
-  
-  # 是否输出到控制台
-  console_output: true
-
-# Consul 集成配置（第二阶段实现）
 consul:
-  # Consul 服务器地址
-  url: "http://127.0.0.1:8500"
-  
-  # 是否启用自动服务注册
-  auto_register: false
-  
-  # 服务注册前缀
-  service_prefix: "agent"
-  
-  # 健康检查配置
+  auto_register: true
+  auto_start: true
+  enabled: true
   health_check:
-    interval: "10s"
-    timeout: "5s"
-    deregister_critical_after: "30s"
-
-# 服务模板配置（扩展功能）
+    deregister_critical_after: 30s
+    interval: 10s
+    timeout: 5s
+  service_prefix: agent
+  url: http://127.0.0.1:8500
+logging:
+  console_output: true
+  level: INFO
+  log_file: external_service_manager.log
+service_management:
+  health_check_interval: 10
+  max_retries: 3
+  shutdown_timeout: 30
+  startup_timeout: 60
+state_management:
+  auto_save: true
+  save_interval: 30
+  state_file: service_state.json
 templates:
-  # systemd 服务模板目录
-  systemd_templates: "templates/systemd"
-  
-  # Docker 配置模板目录  
-  docker_templates: "templates/docker"
+  docker_templates: templates/docker
+  systemd_templates: templates/systemd

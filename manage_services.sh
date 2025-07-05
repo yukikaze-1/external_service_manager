@@ -22,6 +22,9 @@ show_help() {
     echo "  $0 stop      # 停止所有外部服务"
     echo "  $0 restart   # 重启所有外部服务"
     echo "  $0 status    # 查看服务状态"
+    echo "  $0 register  # 注册服务到Consul"
+    echo "  $0 unregister # 从Consul注销服务"
+    echo "  $0 discover  # 从Consul发现服务"
     echo "  $0 help      # 显示帮助信息"
     echo ""
     echo "环境变量:"
@@ -65,6 +68,21 @@ case "$1" in
         echo "📊 检查服务状态..."
         check_dependencies
         python3 "$PYTHON_SCRIPT" status
+        ;;
+    (register)
+        echo "🔗 注册服务到Consul..."
+        check_dependencies
+        python3 "$PYTHON_SCRIPT" consul-register
+        ;;
+    (unregister)
+        echo "🔗 从Consul注销服务..."
+        check_dependencies
+        python3 "$PYTHON_SCRIPT" consul-unregister
+        ;;
+    (discover)
+        echo "🔍 从Consul发现服务..."
+        check_dependencies
+        python3 "$PYTHON_SCRIPT" consul-discover
         ;;
     (help|--help|-h)
         show_help

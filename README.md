@@ -32,18 +32,46 @@ external-service-manager --help
 
 为了提高独立性和避免对 `discard` 目录的依赖，外部服务管理器现在包含了所有必要的依赖代码：
 
+### 🔗 Consul集成 (第二阶段新增)
+
+**最新功能：**
+- ✅ **自动服务注册**：启动服务时自动注册到Consul
+- ✅ **自动服务注销**：停止服务时自动从Consul注销
+- ✅ **服务发现**：从Consul发现可用服务
+- ✅ **健康检查集成**：自动配置健康检查端点
+- ✅ **状态监控**：实时显示Consul集成状态
+
+**新增命令：**
+```bash
+./manage_services.sh register    # 注册服务到Consul
+./manage_services.sh unregister  # 从Consul注销服务
+./manage_services.sh discover    # 发现Consul中的服务
+```
+
 ### 目录结构
 ```
 ExternalServiceManager/                 # 项目根目录
 ├── service_manager.py                  # 主要的服务管理器
+├── consul_integration.py              # Consul集成模块
 ├── manage_services.sh                  # 便捷的 bash 脚本
-├── config.yml                         # 本地配置文件
+├── config.yml                         # 主配置文件
 ├── service_state.json                 # 服务状态文件（自动生成）
-├── README.md                          # 本文档
 ├── requirements.txt                   # Python依赖
-├── setup.py                          # 安装脚本
+├── setup.py                          # 包安装配置
+├── README.md                          # 本文档
 ├── LICENSE                           # 许可证
-├── .gitignore                        # Git忽略文件
+├── docs/                             # 📚 文档目录
+│   ├── README.md                      # 文档导航
+│   ├── CONSUL_DEPLOYMENT_GUIDE.md     # Consul部署指南
+│   └── CONSUL_SOLUTION_SUMMARY.md     # 解决方案总结
+├── tests/                            # 🧪 测试目录
+│   ├── README.md                      # 测试说明
+│   ├── test_consul_deployment.py      # Consul部署测试
+│   ├── test_full_workflow.py          # 完整工作流程测试
+│   └── test_simple_auto_start.py      # 自动启动测试
+├── tools/                            # 🔧 工具目录
+│   ├── README.md                      # 工具说明
+│   └── migrate_consul_config.py       # 配置迁移工具
 ├── Module/                           # 依赖模块
 │   └── Utils/
 │       ├── Logger.py
@@ -68,8 +96,11 @@ ExternalServiceManager/                 # 项目根目录
 ### 主要改进
 - ✅ **完全独立**: 不再依赖 `discard/ExternalServiceInit_legacy` 目录
 - ✅ **本地化配置**: 包含独立的配置文件和组件
+- ✅ **Consul集成**: 自动服务注册、发现和健康检查
+- ✅ **循环依赖解决**: 提供多种 Consul 部署策略
 - ✅ **向后兼容**: 如果本地配置不存在，会尝试使用传统配置作为后备
 - ✅ **更好的维护性**: 所有相关代码都在同一个目录中
+- ✅ **完整测试**: 包含全面的测试套件和文档
 
 ## ✨ 主要特性
 
@@ -98,8 +129,9 @@ ExternalServiceManager/                 # 项目根目录
 ```
 Tools/ExternalServiceManager/
 ├── service_manager.py      # 主要的服务管理器
+├── consul_integration.py   # Consul集成模块
 ├── manage_services.sh      # 便捷的 bash 脚本
-├── config.yml             # 本地配置文件
+├── config.yml             # 主配置文件
 ├── service_state.json     # 服务状态文件（自动生成）
 ├── README.md              # 本文档
 ├── legacy/                # 本地化的外部服务管理器组件
@@ -122,42 +154,37 @@ Tools/ExternalServiceManager/
 
 ## 🚀 快速开始
 
-### 🎮 方式1：使用便捷脚本（推荐）
-
+### 第一步：安装依赖
 ```bash
-# 🚀 启动所有服务（一键启动8个服务）
-./manage_services.sh start
-
-# 📊 查看服务状态（显示详细信息）
-./manage_services.sh status
-
-# 🛑 停止所有服务
-./manage_services.sh stop
-
-# 🔄 重启所有服务
-./manage_services.sh restart
-
-# ❓ 查看帮助
-./manage_services.sh help
+pip install -r requirements.txt
 ```
 
-### 🐍 方式2：直接使用Python脚本
-
+### 第二步：配置 Consul 集成（解决循环依赖）
 ```bash
-# 启动所有服务
-python3 service_manager.py start
+# 运行配置迁移工具
+python tools/migrate_consul_config.py
 
-# 查看服务状态
-python3 service_manager.py status
+# 选择部署策略：
+# 1 - 外部 Consul 模式（生产环境推荐）
+# 2 - 自动启动模式（开发环境推荐）
+```
 
-# 停止所有服务
-python3 service_manager.py stop
+### 第三步：启动服务
+```bash
+# 查看服务状态（会自动启动 Consul 如果配置了自动启动）
+python service_manager.py status
 
-# 重启所有服务
-python3 service_manager.py restart
+# 注册服务到 Consul
+python service_manager.py consul-register
 
-# 查看详细帮助
-python3 service_manager.py --help
+# 发现 Consul 中的服务
+python service_manager.py consul-discover
+```
+
+### 快速验证
+```bash
+# 运行完整测试验证所有功能
+python tests/test_full_workflow.py
 ```
 
 ## 📋 状态示例

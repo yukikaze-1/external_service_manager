@@ -39,6 +39,14 @@ except ImportError as e:
     print("请确保 legacy 目录存在并包含必要文件")
     sys.exit(1)
 
+# 导入Consul集成模块
+try:
+    from consul_integration import ConsulIntegrationManager
+    HAS_CONSUL_INTEGRATION = True
+except ImportError as e:
+    print(f"警告：Consul集成模块导入失败: {e}")
+    HAS_CONSUL_INTEGRATION = False
+
 from Module.Utils.Logger import setup_logger
 
 
@@ -76,6 +84,10 @@ class ExternalServiceManager:
         
         # 服务状态
         self.running_services = self._load_service_state()
+        
+        # 初始化Consul集成
+        self.consul_manager = None
+        self._init_consul_integration()
         
         # 注册信号处理器
         signal.signal(signal.SIGINT, self._signal_handler)
@@ -158,6 +170,92 @@ class ExternalServiceManager:
         
         self.logger.info(f"传统管理器将使用配置文件: {target_config}")
     
+    def _get_service_port_from_config(self, service_name: str) -> Optional[int]:
+        """从配置文件获取服务的真实端口"""
+        try:
+            import yaml
+            config_file = Path(__file__).parent / "legacy" / "config.yml"
+            
+            if not config_file.exists():
+                return None
+            
+            with open(config_file, 'r', encoding='utf-8') as f:
+                config = yaml.safe_load(f)
+            
+            # 从ip_port配置中获取端口
+            ip_ports = config.get("external_services", {}).get("ip_port", [])
+            
+            for port_config in ip_ports:
+                if isinstance(port_config, dict):
+                    for svc_name, port_info in port_config.items():
+                        # 处理服务名映射
+                        if (svc_name == service_name or 
+                            (svc_name == "GPTSoVits" and service_name == "GPTSoVits_server") or
+                            (svc_name == "SenseVoice" and service_name == "SenseVoice_server")):
+                            if isinstance(port_info, list) and len(port_info) >= 2:
+                                return int(port_info[1])
+            
+            # 如果在ip_port中没找到，尝试从健康检查URL中提取
+            base_services = config.get("external_services", {}).get("base_services", [])
+            for service_config in base_services:
+                if isinstance(service_config, dict):
+                    svc_name = list(service_config.keys())[0]
+                    if svc_name == service_name:
+                        health_url = service_config[svc_name].get("health_check_url", "")
+                        if health_url:
+                            # 从URL中提取端口，例如 http://127.0.0.1:8500/v1/status/leader
+                            import re
+                            match = re.search(r':(\d+)/', health_url)
+                            if match:
+                                return int(match.group(1))
+            
+        except Exception as e:
+            self.logger.warning(f"从配置获取端口失败 {service_name}: {e}")
+        
+        return None
+    
+    def _init_consul_integration(self):
+        """初始化Consul集成"""
+        if not HAS_CONSUL_INTEGRATION:
+            self.logger.warning("Consul集成模块不可用，跳过Consul功能")
+            return
+        
+        try:
+            # 加载Consul配置
+            consul_config = self._load_consul_config()
+            
+            if consul_config.get("enabled", False):
+                self.consul_manager = ConsulIntegrationManager(
+                    consul_config=consul_config,
+                    logger=self.logger
+                )
+                self.logger.info("✅ Consul集成初始化成功")
+            else:
+                self.logger.info("Consul集成已禁用")
+        except Exception as e:
+            self.logger.warning(f"⚠️ Consul集成初始化失败: {e}")
+    
+    def _load_consul_config(self) -> Dict:
+        """加载Consul配置"""
+        config_file = Path(__file__).parent / "config.yml"
+        
+        if not config_file.exists():
+            return {"enabled": False}
+        
+        try:
+            import yaml
+            with open(config_file, 'r', encoding='utf-8') as f:
+                config = yaml.safe_load(f)
+            
+            consul_config = config.get("consul", {})
+            # 默认启用Consul集成
+            consul_config.setdefault("enabled", True)
+            
+            return consul_config
+        except Exception as e:
+            self.logger.warning(f"加载Consul配置失败: {e}")
+            return {"enabled": False}
+    
     def start_all_services(self) -> bool:
         """启动所有服务"""
         self.logger.info("🚀 开始启动所有外部服务...")
@@ -170,20 +268,30 @@ class ExternalServiceManager:
             started_services = {}
             
             if base_services:
-                for name, port in base_services:
+                for name, process_id in base_services:
+                    # 获取真实的服务端口
+                    real_port = self._get_service_port_from_config(name)
+                    port = real_port if real_port else process_id  # 如果找不到真实端口，使用进程ID作为后备
+                    
                     started_services[name] = {
                         "type": "base",
                         "port": port,
+                        "process_id": process_id,  # 保存进程ID以便管理
                         "start_time": time.time(),
                         "status": "running"
                     }
                 self.logger.info(f"✅ 基础服务启动成功: {[name for name, _ in base_services]}")
             
             if optional_services:
-                for name, port in optional_services:
+                for name, process_id in optional_services:
+                    # 获取真实的服务端口
+                    real_port = self._get_service_port_from_config(name)
+                    port = real_port if real_port else process_id
+                    
                     started_services[name] = {
                         "type": "optional", 
                         "port": port,
+                        "process_id": process_id,  # 保存进程ID以便管理
                         "start_time": time.time(),
                         "status": "running"
                     }
@@ -192,6 +300,11 @@ class ExternalServiceManager:
             # 更新状态
             self.running_services.update(started_services)
             self._save_service_state()
+            
+            # Consul集成：注册启动的服务
+            if self.consul_manager and started_services:
+                self.logger.info("🔗 开始向Consul注册服务...")
+                self._register_services_to_consul(started_services)
             
             total_services = len(base_services) + len(optional_services)
             self.logger.info(f"🎉 服务启动完成！共启动 {total_services} 个服务")
@@ -207,6 +320,11 @@ class ExternalServiceManager:
         self.logger.info("🛑 开始停止所有外部服务...")
         
         try:
+            # Consul集成：注销服务
+            if self.consul_manager and self.running_services:
+                self.logger.info("🔗 开始从Consul注销服务...")
+                self._deregister_services_from_consul(self.running_services)
+            
             if hasattr(self.legacy_manager, 'stop_all_services'):
                 self.legacy_manager.stop_all_services()
             else:
@@ -247,6 +365,10 @@ class ExternalServiceManager:
                 "uptime": time.time() - service_info.get("start_time", 0)
             }
         
+        # 添加Consul状态信息
+        if self.consul_manager:
+            status["consul"] = self._get_consul_status()
+        
         return status
     
     def start_service(self, service_name: str) -> bool:
@@ -267,6 +389,143 @@ class ExternalServiceManager:
         self.logger.warning("单个服务停止功能待实现，请使用 stop 命令停止所有服务")
         return False
     
+    def consul_register_all(self) -> bool:
+        """向Consul注册所有服务"""
+        self.logger.info("🔗 开始向Consul注册所有服务...")
+        
+        try:
+            if not self.consul_manager:
+                self.logger.warning("Consul集成未初始化，无法注册服务")
+                return False
+            
+            for service_name, service_info in self.running_services.items():
+                try:
+                    self.consul_manager.on_service_started(service_name, service_info)
+                    self.logger.info(f"✅ 服务已注册到Consul: {service_name}")
+                except Exception as e:
+                    self.logger.warning(f"向Consul注册服务失败 {service_name}: {e}")
+            
+            return True
+        except Exception as e:
+            self.logger.error(f"❌ 服务注册到Consul失败: {e}")
+            return False
+    
+    def consul_unregister_all(self) -> bool:
+        """从Consul注销所有服务"""
+        self.logger.info("🔗 开始从Consul注销所有服务...")
+        
+        try:
+            if not self.consul_manager:
+                self.logger.warning("Consul集成未初始化，无法注销服务")
+                return False
+            
+            for service_name, service_info in self.running_services.items():
+                try:
+                    self.consul_manager.on_service_stopped(service_name, service_info)
+                    self.logger.info(f"✅ 服务已从Consul注销: {service_name}")
+                except Exception as e:
+                    self.logger.warning(f"从Consul注销服务失败 {service_name}: {e}")
+            
+            return True
+        except Exception as e:
+            self.logger.error(f"❌ 服务从Consul注销失败: {e}")
+            return False
+    
+    def consul_discover_services(self) -> List[Dict]:
+        """从Consul发现服务"""
+        self.logger.info("🔍 从Consul发现服务...")
+        
+        if not self.consul_manager:
+            self.logger.warning("Consul集成未初始化，无法发现服务")
+            return []
+        
+        try:
+            # 先尝试列出已注册的服务
+            services = self.consul_manager.registry.list_services()
+            self.logger.info(f"✅ 从Consul发现服务: {len(services)} 个服务")
+            
+            return [
+                {
+                    "name": service.name,
+                    "id": service.service_id,
+                    "host": service.host,
+                    "port": service.port,
+                    "tags": service.tags,
+                    "meta": service.meta
+                } 
+                for service in services
+            ]
+        except Exception as e:
+            self.logger.warning(f"从Consul发现服务失败: {e}")
+            return []
+    
+    def _register_services_to_consul(self, services: Dict[str, Dict]):
+        """向Consul注册服务"""
+        if not self.consul_manager:
+            return
+        
+        for service_name, service_info in services.items():
+            try:
+                self.consul_manager.on_service_started(service_name, service_info)
+            except Exception as e:
+                self.logger.warning(f"向Consul注册服务失败 {service_name}: {e}")
+    
+    def _deregister_services_from_consul(self, services: Dict[str, Dict]):
+        """从Consul注销服务"""
+        if not self.consul_manager:
+            return
+        
+        for service_name, service_info in services.items():
+            try:
+                self.consul_manager.on_service_stopped(service_name, service_info)
+            except Exception as e:
+                self.logger.warning(f"从Consul注销服务失败 {service_name}: {e}")
+    
+    def _get_consul_status(self) -> Dict:
+        """获取Consul状态信息"""
+        consul_status = {
+            "available": False,
+            "auto_register": False,
+            "registered_services": [],
+            "discovered_services": []
+        }
+        
+        if not self.consul_manager:
+            return consul_status
+        
+        try:
+            consul_status["available"] = self.consul_manager.registry.is_available()
+            consul_status["auto_register"] = self.consul_manager.auto_register
+            
+            if consul_status["available"]:
+                # 获取已注册的服务
+                registered_services = self.consul_manager.registry.list_services()
+                consul_status["registered_services"] = [
+                    {
+                        "name": service.name,
+                        "id": service.service_id,
+                        "host": service.host,
+                        "port": service.port
+                    } 
+                    for service in registered_services
+                ]
+                
+                # 获取发现的服务
+                discovered_services = self.consul_manager.registry.discover_services()
+                consul_status["discovered_services"] = [
+                    {
+                        "name": service.name,
+                        "id": service.service_id,
+                        "host": service.host,
+                        "port": service.port
+                    } 
+                    for service in discovered_services
+                ]
+        except Exception as e:
+            self.logger.warning(f"获取Consul状态失败: {e}")
+        
+        return consul_status
+
     def restart_all_services(self) -> bool:
         """重启所有服务"""
         self.logger.info("🔄 重启所有服务...")
@@ -310,6 +569,52 @@ def print_status(status: Dict):
         else:
             print(f"  {legacy_status}")
     
+    # 显示Consul状态信息
+    if status.get("consul"):
+        print("\n🔗 Consul集成状态:")
+        consul_status = status["consul"]
+        print(f"  可用性: {'✅ 可用' if consul_status['available'] else '❌ 不可用'}")
+        print(f"  自动注册: {'✅ 启用' if consul_status['auto_register'] else '❌ 禁用'}")
+        
+        if consul_status['available']:
+            registered_count = len(consul_status['registered_services'])
+            discovered_count = len(consul_status['discovered_services'])
+            print(f"  已注册服务数: {registered_count}")
+            print(f"  发现服务数: {discovered_count}")
+            
+            if consul_status['registered_services']:
+                print("  已注册服务:")
+                for service in consul_status['registered_services']:
+                    print(f"    • {service['name']} ({service['host']}:{service['port']})")
+    
+    print("=" * 60)
+
+
+def print_consul_services(services: List[Dict]):
+    """格式化打印Consul发现的服务"""
+    print("\n" + "=" * 60)
+    print("🔍 Consul 服务发现")
+    print("=" * 60)
+    
+    if not services:
+        print("未发现任何服务")
+        print("=" * 60)
+        return
+    
+    print(f"发现服务数: {len(services)}")
+    print(f"发现时间: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
+    
+    print("\n🌐 发现的服务:")
+    for service in services:
+        print(f"  • {service['name']}")
+        print(f"    ID: {service['id']}")
+        print(f"    地址: {service['host']}:{service['port']}")
+        if service.get('tags'):
+            print(f"    标签: {', '.join(service['tags'])}")
+        if service.get('meta'):
+            print(f"    元数据: {service['meta']}")
+        print()
+    
     print("=" * 60)
 
 
@@ -324,6 +629,9 @@ def main():
   python service_manager.py stop                     # 停止所有服务
   python service_manager.py status                   # 查看服务状态
   python service_manager.py restart                  # 重启所有服务
+  python service_manager.py consul-register          # 注册服务到Consul
+  python service_manager.py consul-unregister        # 从Consul注销服务
+  python service_manager.py consul-discover          # 从Consul发现服务
   python service_manager.py start ollama_server      # 启动指定服务 (待实现)
   python service_manager.py stop ollama_server       # 停止指定服务 (待实现)
         """
@@ -331,7 +639,7 @@ def main():
     
     parser.add_argument(
         'action',
-        choices=['start', 'stop', 'status', 'restart'],
+        choices=['start', 'stop', 'status', 'restart', 'consul-register', 'consul-unregister', 'consul-discover'],
         help='要执行的操作'
     )
     
@@ -377,6 +685,17 @@ def main():
         elif args.action == 'status':
             status = manager.get_service_status()
             print_status(status)
+            success = True
+        
+        elif args.action == 'consul-register':
+            success = manager.consul_register_all()
+        
+        elif args.action == 'consul-unregister':
+            success = manager.consul_unregister_all()
+        
+        elif args.action == 'consul-discover':
+            services = manager.consul_discover_services()
+            print_consul_services(services)
             success = True
         
         # 返回适当的退出码

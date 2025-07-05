@@ -1,11 +1,24 @@
-# 外部服务配置文件
-# 注意: Consul 配置已移除，避免循环依赖
-# Consul 现在通过主配置文件 config.yml 管理
-
 LLM_model:
   name: llama3.2
 external_services:
   base_services:
+  - Consul:
+      args:
+      - agent
+      - -dev
+      - -client
+      - '{{ GetPrivateInterfaces | exclude "type" "ipv6" | join "address" " " }} {{
+        GetAllInterfaces | include "flags" "loopback" | join "address" " " }}'
+      conda_env: /home/yomu/data/anaconda3/envs
+      health_check_url: http://127.0.0.1:8500/v1/status/leader
+      is_base: true
+      log_file: Consul.log
+      run_in_background: true
+      script: consul
+      service_name: Consul
+      startup_timeout: 30
+      use_python: false
+
   - ollama_server:
       args:
       - serve
@@ -18,6 +31,7 @@ external_services:
       service_name: ollama_server
       startup_timeout: 60
       use_python: false
+
   - GPTSoVits_server:
       args:
       - -a
@@ -33,6 +47,7 @@ external_services:
       service_name: GPTSoVits_server
       startup_timeout: 90
       use_python: true
+
   - SenseVoice_server:
       args: []
       conda_env: /home/yomu/data/anaconda3/envs/SenseVoice
@@ -44,17 +59,7 @@ external_services:
       service_name: SenseVoice_server
       startup_timeout: 60
       use_python: true
-  - MySQLService:
-      args: []
-      conda_env: /home/yomu/data/anaconda3/envs/agent
-      health_check_url: http://127.0.0.1:20050/health
-      is_base: true
-      log_file: MySQLService.log
-      run_in_background: true
-      script: Service/MySQLService/MySQLService.py
-      service_name: MySQLService
-      startup_timeout: 30
-      use_python: true
+
   ip_port:
   - ollama_server:
     - 127.0.0.1
@@ -68,25 +73,29 @@ external_services:
   - Consul:
     - 127.0.0.1
     - '8500'
-  - MySQLService:
-    - 127.0.0.1
-    - '20050'
+
+
   optional_services: null
+
   support_services:
   - ollama_server
   - GPTSoVits_server
   - SenseVoice_server
   - Consul
-  - MySQLService
+
+
 health_check:
   check_interval: 2
   default_timeout: 30
+
 logging:
   format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
   level: INFO
+
 process_management:
   force_kill_timeout: 5
   graceful_shutdown_timeout: 10
+  
 retry_config:
   backoff_factor: 2.0
   base_delay: 1.0
