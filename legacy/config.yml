@@ -1,0 +1,180 @@
+LLM_model:
+  name: llama3.2
+external_services:
+  base_services:
+  - Consul:
+      args:
+      - agent
+      - -dev
+      - -client
+      - '{{ GetPrivateInterfaces | exclude "type" "ipv6" | join "address" " " }} {{
+        GetAllInterfaces | include "flags" "loopback" | join "address" " " }}'
+      conda_env: /home/yomu/data/anaconda3/envs
+      health_check_url: http://127.0.0.1:8500/v1/status/leader
+      is_base: true
+      log_file: Consul.log
+      run_in_background: true
+      script: consul
+      service_name: Consul
+      startup_timeout: 30
+      use_python: false
+  - ollama_server:
+      args:
+      - serve
+      conda_env: /home/yomu/data/anaconda3/envs
+      health_check_url: http://127.0.0.1:11434/api/tags
+      is_base: true
+      log_file: ollama_server.log
+      run_in_background: true
+      script: ollama
+      service_name: ollama_server
+      startup_timeout: 60
+      use_python: false
+  - GPTSoVits_server:
+      args:
+      - -a
+      - 0.0.0.0
+      - -p
+      - '9880'
+      conda_env: /home/yomu/data/anaconda3/envs/GPTSoVits
+      health_check_url: http://127.0.0.1:9880/health
+      is_base: true
+      log_file: GPTSoVits_server.log
+      run_in_background: true
+      script: /home/yomu/GPTSoVits/GPTSoVits_api.py
+      service_name: GPTSoVits_server
+      startup_timeout: 90
+      use_python: true
+  - SenseVoice_server:
+      args: []
+      conda_env: /home/yomu/data/anaconda3/envs/SenseVoice
+      health_check_url: http://127.0.0.1:20042/health
+      is_base: true
+      log_file: SenseVoice_server.log
+      run_in_background: true
+      script: /home/yomu/SenseVoice/SenseVoice_server.py
+      service_name: SenseVoice_server
+      startup_timeout: 60
+      use_python: true
+  - MicroServiceGateway:
+      args: []
+      conda_env: /home/yomu/data/anaconda3/envs/agent
+      dependencies:
+      - Consul
+      health_check_url: http://127.0.0.1:20000/health
+      is_base: true
+      log_file: MicroServiceGateway.log
+      run_in_background: true
+      script: Service/Gateway/MicroServiceGateway.py
+      service_name: MicroServiceGateway
+      startup_timeout: 30
+      use_python: true
+  - APIGateway:
+      args: []
+      conda_env: /home/yomu/data/anaconda3/envs/agent
+      dependencies:
+      - MicroServiceGateway
+      health_check_url: http://127.0.0.1:20001/health
+      is_base: true
+      log_file: APIGateway.log
+      run_in_background: true
+      script: Service/Gateway/APIGateway.py
+      service_name: APIGateway
+      startup_timeout: 30
+      use_python: true
+  - MySQLService:
+      args: []
+      conda_env: /home/yomu/data/anaconda3/envs/agent
+      health_check_url: http://127.0.0.1:20050/health
+      is_base: true
+      log_file: MySQLService.log
+      run_in_background: true
+      script: Service/MySQLService/MySQLService.py
+      service_name: MySQLAgent
+      startup_timeout: 30
+      use_python: true
+  - UserService:
+      args: []
+      conda_env: /home/yomu/data/anaconda3/envs/agent
+      dependencies:
+      - MySQLAgent
+      health_check_url: http://127.0.0.1:20010/health
+      is_base: true
+      log_file: UserService.log
+      run_in_background: true
+      script: Service/UserService/app/main.py
+      service_name: UserService
+      startup_timeout: 30
+      use_python: true
+  ip_port:
+  - ollama_server:
+    - 127.0.0.1
+    - '11434'
+  - GPTSoVits:
+    - 127.0.0.1
+    - '9880'
+  - SenseVoice:
+    - 127.0.0.1
+    - '20042'
+  - Consul:
+    - 127.0.0.1
+    - '8500'
+  - MicroServiceGateway:
+    - 127.0.0.1
+    - '20000'
+  - APIGateway:
+    - 127.0.0.1
+    - '20001'
+  - OllamaAgent:
+    - 127.0.0.1
+    - '20030'
+  - GPTSovitsAgent:
+    - 127.0.0.1
+    - '20040'
+  - MySQLService:
+    - 127.0.0.1
+    - '20050'
+  - UserService:
+    - 127.0.0.1
+    - '20010'
+  - ChatModule:
+    - 127.0.0.1
+    - '20060'
+  - SenseVoiceAgent:
+    - 127.0.0.1
+    - '20041'
+  - PromptOptimizer:
+    - 127.0.0.1
+    - '20022'
+  optional_services: null
+  support_services:
+  - ollama_server
+  - GPTSoVits_server
+  - SenseVoice_server
+  - Consul
+  - MicroServiceGateway
+  - APIGateway
+  - MySQLService
+  - UserService
+  - APIGateway
+  - OllamaAgent
+  - GPTSovitsAgent
+  - MySQLService
+  - UserService
+  - ChatModule
+  - SenseVoiceAgent
+  - PromptOptimizer
+health_check:
+  check_interval: 2
+  default_timeout: 30
+logging:
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  level: INFO
+process_management:
+  force_kill_timeout: 5
+  graceful_shutdown_timeout: 10
+retry_config:
+  backoff_factor: 2.0
+  base_delay: 1.0
+  max_delay: 60.0
+  max_retries: 3

@@ -1,0 +1,43 @@
+2025-07-05 00:44:14,383 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/agent
+2025-07-05 00:44:14,383 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/agent/Tools/ExternalServiceManager 切换到 /home/yomu/agent
+2025-07-05 00:44:14,383 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/agent/Init/ExternalServiceInit/config.yml
+2025-07-05 00:44:14,396 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-05 00:44:25,292 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/agent
+2025-07-05 00:44:25,292 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/agent/Tools/ExternalServiceManager 切换到 /home/yomu/agent
+2025-07-05 00:44:25,292 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/agent/Init/ExternalServiceInit/config.yml
+2025-07-05 00:44:25,304 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-05 00:44:36,492 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/agent
+2025-07-05 00:44:36,492 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/agent/Tools/ExternalServiceManager 切换到 /home/yomu/agent
+2025-07-05 00:44:36,492 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/agent/Init/ExternalServiceInit/config.yml
+2025-07-05 00:44:36,505 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-05 00:44:36,505 - ExternalServiceManager - INFO - 🚀 开始启动所有外部服务...
+2025-07-05 00:45:16,943 - ExternalServiceManager - INFO - ✅ 基础服务启动成功: ['Consul', 'ollama_server', 'GPTSoVits_server', 'SenseVoice_server', 'MicroServiceGateway', 'APIGateway', 'MySQLAgent', 'UserService']
+2025-07-05 00:45:16,944 - ExternalServiceManager - INFO - 🎉 服务启动完成！共启动 8 个服务
+2025-07-05 00:45:45,703 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/agent/Tools/ExternalServiceManager 切换到 /home/yomu/agent
+2025-07-05 00:45:45,703 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/agent/Init/ExternalServiceInit/config.yml
+2025-07-05 00:45:45,716 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-05 00:45:58,231 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/agent
+2025-07-05 00:45:58,231 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/agent/Tools/ExternalServiceManager 切换到 /home/yomu/agent
+2025-07-05 00:45:58,231 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/agent/Init/ExternalServiceInit/config.yml
+2025-07-05 00:45:58,244 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-05 00:46:07,361 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/agent
+2025-07-05 00:46:07,362 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/agent/Tools/ExternalServiceManager 切换到 /home/yomu/agent
+2025-07-05 00:46:07,362 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/agent/Init/ExternalServiceInit/config.yml
+2025-07-05 00:46:07,374 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-05 00:47:51,555 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/agent
+2025-07-05 00:47:51,555 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/agent/Tools/ExternalServiceManager 切换到 /home/yomu/agent
+2025-07-05 00:47:51,555 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/agent/Init/ExternalServiceInit/config.yml
+2025-07-05 00:47:51,568 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-05 00:47:51,568 - ExternalServiceManager - INFO - 🚀 开始启动所有外部服务...
+2025-07-05 00:48:46,326 - ExternalServiceManager - INFO - ✅ 基础服务启动成功: ['Consul', 'ollama_server', 'GPTSoVits_server', 'SenseVoice_server', 'MicroServiceGateway', 'APIGateway', 'MySQLAgent', 'UserService']
+2025-07-05 00:48:46,327 - ExternalServiceManager - INFO - 🎉 服务启动完成！共启动 8 个服务
+2025-07-05 00:51:16,499 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/agent
+2025-07-05 00:51:16,499 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/agent/Tools/ExternalServiceManager 切换到 /home/yomu/agent
+2025-07-05 00:51:16,499 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/agent/Init/ExternalServiceInit/config.yml
+2025-07-05 00:51:16,512 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-05 00:58:09,843 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/agent
+2025-07-05 00:58:09,843 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/agent/Tools/ExternalServiceManager 切换到 /home/yomu/agent
+2025-07-05 00:58:09,843 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/agent/Init/ExternalServiceInit/config.yml
+2025-07-05 00:58:09,855 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-05 00:58:09,855 - ExternalServiceManager - INFO - 🛑 开始停止所有外部服务...
+2025-07-05 00:58:26,381 - ExternalServiceManager - INFO - ✅ 服务停止完成！共停止 8 个服务

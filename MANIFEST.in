@@ -1,0 +1,10 @@
+include README.md
+include LICENSE
+include requirements.txt
+include *.yml
+include *.yaml
+include *.sh
+recursive-include legacy *.py *.yml
+recursive-include Module *.py
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
