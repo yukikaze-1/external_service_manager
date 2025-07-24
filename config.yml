@@ -6,7 +6,7 @@ consul:
     deregister_critical_after: 30s
     interval: 10s
     timeout: 5s
-  service_prefix: agent
+  service_prefix: ""
   url: http://127.0.0.1:8500
 logging:
   console_output: true

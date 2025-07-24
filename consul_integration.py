@@ -241,7 +241,10 @@ class ConsulServiceRegistry:
     
     def _generate_service_id(self, service_name: str, host: str, port: int) -> str:
         """生成唯一的服务ID"""
-        return f"{self.service_prefix}-{service_name}-{host}-{port}"
+        if self.service_prefix:
+            return f"{self.service_prefix}-{service_name}-{host}-{port}"
+        else:
+            return f"{service_name}-{host}-{port}"
     
     def register_service(self, service_name: str, host: str, port: int,
                         health_check_url: Optional[str] = None,
@@ -268,13 +271,28 @@ class ConsulServiceRegistry:
         try:
             service_id = self._generate_service_id(service_name, host, port)
             
+            # 检查服务是否已经注册（避免重复注册）
+            existing_services = self.consul.agent.services()
+            if service_id in existing_services:
+                self.logger.info(f"服务已存在，跳过注册: {service_name} ({service_id})")
+                return True
+            
+            # 同时检查是否有相同名称的服务已经注册（可能是服务自己注册的）
+            service_display_name = service_name if not self.service_prefix else f"{self.service_prefix}-{service_name}"
+            for existing_id, existing_service in existing_services.items():
+                if (existing_service["Service"] == service_display_name and 
+                    existing_service["Address"] == host and 
+                    existing_service["Port"] == port):
+                    self.logger.info(f"发现相同的服务已存在，跳过注册: {service_name} (已存在ID: {existing_id})")
+                    return True
+            
             # 准备服务注册参数
             register_kwargs = {
-                "name": f"{self.service_prefix}-{service_name}",
+                "name": service_display_name,
                 "service_id": service_id,
                 "address": host,
                 "port": port,
-                "tags": tags or [self.service_prefix, "external-service"]
+                "tags": tags or (["external-service"] if not self.service_prefix else [self.service_prefix, "external-service"])
             }
             
             # 添加健康检查
@@ -369,7 +387,7 @@ class ConsulServiceRegistry:
             return {"error": "Consul 不可用"}
         
         try:
-            full_service_name = f"{self.service_prefix}-{service_name}"
+            full_service_name = service_name if not self.service_prefix else f"{self.service_prefix}-{service_name}"
             
             # 获取服务信息
             services = self.consul.agent.services()
@@ -417,8 +435,8 @@ class ConsulServiceRegistry:
             service_list = []
             
             for service_id, service_info in services.items():
-                # 只返回我们管理的服务
-                if service_info["Service"].startswith(self.service_prefix):
+                # 如果没有前缀，返回所有服务；如果有前缀，只返回我们管理的服务
+                if not self.service_prefix or service_info["Service"].startswith(self.service_prefix):
                     service_list.append(ServiceInfo(
                         name=service_info["Service"],
                         service_id=service_id,
@@ -450,7 +468,7 @@ class ConsulServiceRegistry:
         try:
             if service_name:
                 # 查找特定服务
-                full_service_name = f"{self.service_prefix}-{service_name}"
+                full_service_name = service_name if not self.service_prefix else f"{self.service_prefix}-{service_name}"
                 _, service_data = self.consul.health.service(full_service_name, passing=False)  # 不仅仅是健康的服务
             else:
                 # 获取所有服务（不仅仅是健康的）
@@ -459,7 +477,7 @@ class ConsulServiceRegistry:
                 
                 # 转换为健康检查格式以保持兼容性
                 for service_id, service_info in services.items():
-                    if service_info["Service"].startswith(self.service_prefix):
+                    if not self.service_prefix or service_info["Service"].startswith(self.service_prefix):
                         service_data.append({
                             "Service": {
                                 "Service": service_info["Service"],
@@ -585,7 +603,8 @@ class ConsulServiceRegistry:
                     registered_services = self._get_registered_services()
                     for service in registered_services:
                         service_id = service.get("ID", "")
-                        if service_id.startswith(f"{self.service_prefix}-"):
+                        # 如果没有前缀，注销所有服务；如果有前缀，只注销我们管理的服务
+                        if not self.service_prefix or service_id.startswith(f"{self.service_prefix}-"):
                             self.logger.info(f"注销服务: {service_id}")
                             self.consul.agent.service.deregister(service_id)
             except Exception as e:
@@ -668,6 +687,11 @@ class ConsulIntegrationManager:
         if not self.auto_register or not self.registry.is_available():
             return True
         
+        # 跳过Consul服务，因为它在开发模式下会自动注册自己
+        if service_name.lower() == "consul":
+            self.logger.info(f"跳过Consul服务注册，它会自动注册自己")
+            return True
+        
         port = service_info.get("port")
         if not port:
             self.logger.warning(f"服务 {service_name} 缺少端口信息，跳过 Consul 注册")
@@ -696,6 +720,11 @@ class ConsulIntegrationManager:
             bool: 处理是否成功
         """
         if not self.auto_register or not self.registry.is_available():
+            return True
+        
+        # 跳过Consul服务，因为它在开发模式下会自动管理自己
+        if service_name.lower() == "consul":
+            self.logger.info(f"跳过Consul服务注销，它会自动管理自己")
             return True
         
         port = service_info.get("port")
