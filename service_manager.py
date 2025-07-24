@@ -92,6 +92,19 @@ class ExternalServiceManager:
         # 注册信号处理器
         signal.signal(signal.SIGINT, self._signal_handler)
         signal.signal(signal.SIGTERM, self._signal_handler)
+        
+        # 禁用Consul集成的自动清理，让服务在程序退出后继续在Consul中注册
+        if self.consul_manager and hasattr(self.consul_manager, 'registry'):
+            # 替换原有的__del__方法，避免自动注销服务
+            original_del = self.consul_manager.registry.__class__.__del__
+            def safe_del(obj_self):
+                try:
+                    # 只停止Consul进程，不注销服务
+                    if hasattr(obj_self, 'consul_manager') and obj_self.consul_manager:
+                        obj_self.consul_manager.stop_consul()
+                except Exception:
+                    pass
+            self.consul_manager.registry.__class__.__del__ = safe_del
     
     def _signal_handler(self, signum, frame):
         """处理系统信号，优雅关闭"""

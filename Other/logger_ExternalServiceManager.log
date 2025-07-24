@@ -1,644 +1,112 @@
-2025-07-05 15:29:46,786 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:29:46,787 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:29:46,787 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:29:46,798 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:29:46,800 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:29:46,801 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7dec654541a0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:29:46,801 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:29:46,801 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:30:21,089 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:30:21,090 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:30:21,100 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:30:21,103 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:30:21,104 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x72d262ba0ec0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:30:21,104 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:30:21,104 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:30:21,104 - ExternalServiceManager - INFO - 🚀 开始启动所有外部服务...
-2025-07-05 15:30:21,104 - ExternalServiceManager - ERROR - ❌ 服务启动失败: Service 'MicroServiceGateway' config error: Script file not found: Service/Gateway/MicroServiceGateway.py
-2025-07-05 15:32:27,430 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:32:27,430 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:32:27,441 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:32:27,443 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:32:27,445 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7e68b6b40ec0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:32:27,445 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:32:27,445 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:32:27,445 - ExternalServiceManager - INFO - 🚀 开始启动所有外部服务...
-2025-07-05 15:32:27,445 - ExternalServiceManager - ERROR - ❌ 服务启动失败: Service 'MicroServiceGateway' config error: Script file not found: Service/Gateway/MicroServiceGateway.py
-2025-07-05 15:32:56,200 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:32:56,200 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:32:56,211 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:32:56,213 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:32:56,215 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x719968064ec0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:32:56,215 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:32:56,215 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:32:56,215 - ExternalServiceManager - INFO - 🚀 开始启动所有外部服务...
-2025-07-05 15:32:56,215 - ExternalServiceManager - ERROR - ❌ 服务启动失败: Service 'MicroServiceGateway' config error: Script file not found: Service/Gateway/MicroServiceGateway.py
-2025-07-05 15:35:23,509 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:35:23,509 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:35:23,515 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:35:23,518 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:35:23,519 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7143d13acec0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:35:23,519 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:35:23,519 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:35:23,519 - ExternalServiceManager - INFO - 🚀 开始启动所有外部服务...
-2025-07-05 15:38:30,685 - ExternalServiceManager - INFO - 收到信号 2，正在关闭所有服务...
-2025-07-05 15:38:30,686 - ExternalServiceManager - INFO - 🛑 开始停止所有外部服务...
-2025-07-05 15:38:38,967 - ExternalServiceManager - INFO - ✅ 服务停止完成！共停止 0 个服务
-2025-07-05 15:40:35,265 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:40:35,265 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:40:35,265 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:40:35,271 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:40:35,273 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:40:35,275 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7dd2e8568440>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:40:35,275 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:40:35,275 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:40:42,087 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:40:42,087 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:40:42,087 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:40:42,093 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:40:42,095 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:40:42,097 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fc0af0782f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:40:42,097 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:40:42,097 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:42:43,505 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:42:43,505 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:42:43,505 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:42:43,511 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:42:43,514 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:42:43,515 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7e7e0d6a9010>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:42:43,515 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:42:43,515 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:42:43,516 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7e7e0d68ead0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:42:59,829 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:42:59,829 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:42:59,836 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:42:59,838 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:42:59,839 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f918898c2f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:42:59,839 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:42:59,840 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:42:59,840 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f9188976210>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:43:04,042 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:43:04,042 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:43:04,048 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:43:04,050 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:43:04,051 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7a907c3882f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:43:04,052 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:43:04,052 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:43:04,052 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7a907c372210>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:43:14,576 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:43:14,576 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:43:14,576 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:43:14,582 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:43:14,584 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:43:14,586 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7b0b6f94d010>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:43:14,586 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:43:14,586 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:43:14,587 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7b0b6f932ad0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:43:32,014 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:43:32,015 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:43:32,015 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:43:32,021 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:43:32,023 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:43:32,024 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x759aef065010>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:43:32,024 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:43:32,024 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:43:32,025 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x759aef04aad0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:44:04,187 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:44:04,187 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:44:04,187 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:44:04,193 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:44:04,195 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:44:04,196 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x70fcd5745010>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:44:04,197 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:44:04,197 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:44:04,197 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x70fcd572aad0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:44:14,381 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:44:14,381 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:44:14,382 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:44:14,388 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:44:14,390 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:44:14,391 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7cac2d1a9010>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:44:14,391 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:44:14,391 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:44:14,391 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 15:44:14,392 - ExternalServiceManager - ERROR - ❌ 服务发现失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/health/state/passing (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7cac2d18ead0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:44:14,392 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 0 个服务
-2025-07-05 15:45:32,129 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:45:32,129 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:45:32,135 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:45:32,137 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:45:32,138 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f4000ebd160>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:45:32,139 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:45:32,139 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:45:32,139 - ExternalServiceManager - INFO - 🚀 开始启动所有外部服务...
-2025-07-05 15:46:10,377 - ExternalServiceManager - INFO - ✅ 基础服务启动成功: ['Consul', 'ollama_server', 'GPTSoVits_server', 'SenseVoice_server']
-2025-07-05 15:46:10,378 - ExternalServiceManager - INFO - 🔗 开始向Consul注册服务...
-2025-07-05 15:46:10,382 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:46:10,383 - ExternalServiceManager - ERROR - ❌ 服务注册失败: Consul - Consul.Agent.Service.register() got an unexpected keyword argument 'meta'
-2025-07-05 15:46:10,384 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:46:10,384 - ExternalServiceManager - ERROR - ❌ 服务注册失败: ollama_server - Consul.Agent.Service.register() got an unexpected keyword argument 'meta'
-2025-07-05 15:46:10,386 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:46:10,386 - ExternalServiceManager - ERROR - ❌ 服务注册失败: GPTSoVits_server - Consul.Agent.Service.register() got an unexpected keyword argument 'meta'
-2025-07-05 15:46:10,387 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:46:10,388 - ExternalServiceManager - ERROR - ❌ 服务注册失败: SenseVoice_server - Consul.Agent.Service.register() got an unexpected keyword argument 'meta'
-2025-07-05 15:46:10,388 - ExternalServiceManager - INFO - 🎉 服务启动完成！共启动 4 个服务
-2025-07-05 15:48:23,139 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:48:23,139 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:48:23,145 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:48:23,147 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:48:23,149 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:48:23,149 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:48:23,149 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:48:23,150 - ExternalServiceManager - INFO - 🛑 开始停止所有外部服务...
-2025-07-05 15:48:23,150 - ExternalServiceManager - INFO - 🔗 开始从Consul注销服务...
-2025-07-05 15:48:23,151 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:48:23,152 - ExternalServiceManager - INFO - ✅ 服务注销成功: Consul (agent-Consul-127.0.0.1-52280)
-2025-07-05 15:48:23,153 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:48:23,154 - ExternalServiceManager - INFO - ✅ 服务注销成功: ollama_server (agent-ollama_server-127.0.0.1-52370)
-2025-07-05 15:48:23,155 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:48:23,156 - ExternalServiceManager - INFO - ✅ 服务注销成功: GPTSoVits_server (agent-GPTSoVits_server-127.0.0.1-52411)
-2025-07-05 15:48:23,157 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:48:23,158 - ExternalServiceManager - INFO - ✅ 服务注销成功: SenseVoice_server (agent-SenseVoice_server-127.0.0.1-52689)
-2025-07-05 15:48:31,400 - ExternalServiceManager - INFO - ✅ 服务停止完成！共停止 4 个服务
-2025-07-05 15:50:46,300 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:50:46,300 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:50:46,300 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:50:46,306 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:50:46,308 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:50:46,310 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7a63e366d160>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:50:46,310 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:50:46,310 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:50:46,310 - ExternalServiceManager - INFO - 🔗 开始向Consul注册所有服务...
-2025-07-05 15:51:08,014 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:51:08,014 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:51:08,014 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:51:08,020 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:51:08,023 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:51:08,024 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7e047c86d010>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:51:08,024 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:51:08,024 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:51:08,024 - ExternalServiceManager - INFO - 🔗 开始向Consul注册所有服务...
-2025-07-05 15:51:22,099 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:51:22,100 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:51:22,100 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:51:22,106 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:51:22,108 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:51:22,109 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x70b215fa5010>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:51:22,109 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:51:22,110 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:51:22,110 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x70b215f8aad0>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:51:51,622 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:51:51,622 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:51:51,628 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:51:51,630 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:51:51,632 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7643c7465010>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:51:51,632 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:51:51,632 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:51:51,632 - ExternalServiceManager - INFO - 🚀 开始启动所有外部服务...
-2025-07-05 15:52:21,850 - ExternalServiceManager - INFO - ✅ 基础服务启动成功: ['Consul', 'ollama_server', 'GPTSoVits_server', 'SenseVoice_server']
-2025-07-05 15:52:21,851 - ExternalServiceManager - INFO - 🔗 开始向Consul注册服务...
-2025-07-05 15:52:21,854 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:52:21,859 - ExternalServiceManager - INFO - ✅ 服务注册成功: Consul (agent-Consul-127.0.0.1-55845) - 127.0.0.1:55845
-2025-07-05 15:52:21,862 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:52:21,866 - ExternalServiceManager - INFO - ✅ 服务注册成功: ollama_server (agent-ollama_server-127.0.0.1-55940) - 127.0.0.1:55940
-2025-07-05 15:52:21,868 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:52:21,872 - ExternalServiceManager - INFO - ✅ 服务注册成功: GPTSoVits_server (agent-GPTSoVits_server-127.0.0.1-55985) - 127.0.0.1:55985
-2025-07-05 15:52:21,875 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:52:21,879 - ExternalServiceManager - INFO - ✅ 服务注册成功: SenseVoice_server (agent-SenseVoice_server-127.0.0.1-56222) - 127.0.0.1:56222
-2025-07-05 15:52:21,879 - ExternalServiceManager - INFO - 🎉 服务启动完成！共启动 4 个服务
-2025-07-05 15:52:52,721 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:52:52,721 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:52:52,727 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:52:52,730 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:52:52,732 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:52:52,732 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:52:52,732 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:52:52,732 - ExternalServiceManager - INFO - 🚀 开始启动所有外部服务...
-2025-07-05 15:53:22,487 - ExternalServiceManager - INFO - 收到信号 15，正在关闭所有服务...
-2025-07-05 15:53:22,488 - ExternalServiceManager - INFO - 🛑 开始停止所有外部服务...
-2025-07-05 15:53:22,488 - ExternalServiceManager - INFO - 🔗 开始从Consul注销服务...
-2025-07-05 15:53:22,492 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:53:22,494 - ExternalServiceManager - INFO - ✅ 服务注销成功: Consul (agent-Consul-127.0.0.1-55845)
-2025-07-05 15:53:22,497 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:53:22,499 - ExternalServiceManager - INFO - ✅ 服务注销成功: ollama_server (agent-ollama_server-127.0.0.1-55940)
-2025-07-05 15:53:22,501 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:53:22,504 - ExternalServiceManager - INFO - ✅ 服务注销成功: GPTSoVits_server (agent-GPTSoVits_server-127.0.0.1-55985)
-2025-07-05 15:53:22,506 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:53:22,508 - ExternalServiceManager - INFO - ✅ 服务注销成功: SenseVoice_server (agent-SenseVoice_server-127.0.0.1-56222)
-2025-07-05 15:53:30,745 - ExternalServiceManager - INFO - ✅ 服务停止完成！共停止 4 个服务
-2025-07-05 15:53:34,382 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:53:34,382 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:53:34,382 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:53:34,388 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:53:34,390 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:53:34,391 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2575e65010>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 15:53:34,391 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:53:34,392 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:53:34,392 - ExternalServiceManager - INFO - 🚀 开始启动所有外部服务...
-2025-07-05 15:54:06,621 - ExternalServiceManager - INFO - ✅ 基础服务启动成功: ['Consul', 'ollama_server', 'GPTSoVits_server', 'SenseVoice_server']
-2025-07-05 15:54:06,622 - ExternalServiceManager - INFO - 🔗 开始向Consul注册服务...
-2025-07-05 15:54:06,626 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:54:06,630 - ExternalServiceManager - INFO - ✅ 服务注册成功: Consul (agent-Consul-127.0.0.1-57737) - 127.0.0.1:57737
-2025-07-05 15:54:06,632 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:54:06,636 - ExternalServiceManager - INFO - ✅ 服务注册成功: ollama_server (agent-ollama_server-127.0.0.1-57833) - 127.0.0.1:57833
-2025-07-05 15:54:06,638 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:54:06,642 - ExternalServiceManager - INFO - ✅ 服务注册成功: GPTSoVits_server (agent-GPTSoVits_server-127.0.0.1-57869) - 127.0.0.1:57869
-2025-07-05 15:54:06,644 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:54:06,648 - ExternalServiceManager - INFO - ✅ 服务注册成功: SenseVoice_server (agent-SenseVoice_server-127.0.0.1-58119) - 127.0.0.1:58119
-2025-07-05 15:54:06,649 - ExternalServiceManager - INFO - 🎉 服务启动完成！共启动 4 个服务
-2025-07-05 15:54:31,774 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:54:31,774 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:54:31,774 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:54:31,781 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:54:31,784 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:54:31,787 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:54:31,787 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:54:31,787 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:54:31,788 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:54:49,095 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:54:49,095 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:54:49,095 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:54:49,101 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:54:49,103 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:54:49,106 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:54:49,106 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:54:49,106 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:54:49,107 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:55:10,376 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:55:10,376 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:55:10,376 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:55:10,382 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:55:10,384 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:55:10,387 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:55:10,387 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:55:10,387 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:55:10,387 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 15:55:10,389 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 0 个服务
-2025-07-05 15:55:57,920 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:55:57,921 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:55:57,921 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:55:57,927 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:55:57,929 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:55:57,931 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:55:57,931 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:55:57,931 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:55:57,932 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 15:55:57,933 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 0 个服务
-2025-07-05 15:58:51,504 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 15:58:51,504 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 15:58:51,505 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 15:58:51,511 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 15:58:51,513 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 15:58:51,515 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 15:58:51,515 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 15:58:51,515 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 15:58:51,515 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 15:58:51,516 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 0 个服务
-2025-07-05 16:00:38,630 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 16:00:38,630 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:00:38,631 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:00:38,637 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:00:38,639 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:00:38,641 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:00:38,641 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:00:38,641 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:00:38,641 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 16:00:38,642 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 0 个服务
-2025-07-05 16:00:57,840 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 16:00:57,840 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:00:57,840 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:00:57,848 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:00:57,850 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:00:57,853 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:00:57,853 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:00:57,853 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:00:57,853 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 16:00:57,854 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 0 个服务
-2025-07-05 16:03:06,651 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 16:03:06,651 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:03:06,651 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:03:06,657 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:03:06,659 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:03:06,662 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:03:06,662 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:03:06,662 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:03:06,662 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 16:03:06,663 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 2 个服务
-2025-07-05 16:03:20,132 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 16:03:20,132 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:03:20,132 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:03:20,138 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:03:20,141 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:03:20,143 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:03:20,143 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:03:20,143 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:03:20,144 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:03:32,315 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 16:03:32,315 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:03:32,315 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:03:32,321 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:03:32,323 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:03:32,325 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:03:32,325 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:03:32,325 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:03:32,327 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:09:34,804 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:09:34,804 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:09:34,810 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:09:34,812 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:09:34,815 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:09:34,815 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:09:34,815 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:09:34,815 - ExternalServiceManager - INFO - 🛑 开始停止所有外部服务...
-2025-07-05 16:09:34,815 - ExternalServiceManager - INFO - 🔗 开始从Consul注销服务...
-2025-07-05 16:09:34,816 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:09:34,817 - ExternalServiceManager - INFO - ✅ 服务注销成功: Consul (agent-Consul-127.0.0.1-57737)
-2025-07-05 16:09:34,818 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:09:34,819 - ExternalServiceManager - INFO - ✅ 服务注销成功: ollama_server (agent-ollama_server-127.0.0.1-57833)
-2025-07-05 16:09:34,820 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:09:34,821 - ExternalServiceManager - INFO - ✅ 服务注销成功: GPTSoVits_server (agent-GPTSoVits_server-127.0.0.1-57869)
-2025-07-05 16:09:34,822 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:09:34,824 - ExternalServiceManager - INFO - ✅ 服务注销成功: SenseVoice_server (agent-SenseVoice_server-127.0.0.1-58119)
-2025-07-05 16:09:43,099 - ExternalServiceManager - INFO - ✅ 服务停止完成！共停止 4 个服务
-2025-07-05 16:10:47,812 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:10:47,812 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:10:47,819 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:10:47,822 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:10:47,823 - ExternalServiceManager - WARNING - ⚠️ Consul 连接测试失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/status/leader (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x75f705845010>: Failed to establish a new connection: [Errno 111] Connection refused'))
-2025-07-05 16:10:47,823 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:10:47,824 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:10:47,824 - ExternalServiceManager - INFO - 🚀 开始启动所有外部服务...
-2025-07-05 16:11:18,100 - ExternalServiceManager - INFO - ✅ 基础服务启动成功: ['Consul', 'ollama_server', 'GPTSoVits_server', 'SenseVoice_server']
-2025-07-05 16:11:18,101 - ExternalServiceManager - INFO - 🔗 开始向Consul注册服务...
-2025-07-05 16:11:18,103 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:11:18,106 - ExternalServiceManager - INFO - ✅ 服务注册成功: Consul (agent-Consul-127.0.0.1-8500) - 127.0.0.1:8500
-2025-07-05 16:11:18,108 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:11:18,112 - ExternalServiceManager - INFO - ✅ 服务注册成功: ollama_server (agent-ollama_server-127.0.0.1-11434) - 127.0.0.1:11434
-2025-07-05 16:11:18,114 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:11:18,118 - ExternalServiceManager - INFO - ✅ 服务注册成功: GPTSoVits_server (agent-GPTSoVits_server-127.0.0.1-9880) - 127.0.0.1:9880
-2025-07-05 16:11:18,120 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:11:18,123 - ExternalServiceManager - INFO - ✅ 服务注册成功: SenseVoice_server (agent-SenseVoice_server-127.0.0.1-20042) - 127.0.0.1:20042
-2025-07-05 16:11:18,124 - ExternalServiceManager - INFO - 🎉 服务启动完成！共启动 4 个服务
-2025-07-05 16:11:50,201 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 16:11:50,202 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:11:50,202 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:11:50,208 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:11:50,210 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:11:50,212 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:11:50,212 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:11:50,212 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:11:50,212 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 16:11:50,216 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 4 个服务
-2025-07-05 16:12:08,664 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 16:12:08,664 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:12:08,664 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:12:08,670 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:12:08,672 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:12:08,674 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:12:08,675 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:12:08,675 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:12:08,675 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 16:12:08,677 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 4 个服务
-2025-07-05 16:37:23,109 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 16:37:23,109 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:37:23,110 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:37:23,116 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:37:23,118 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:37:23,120 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:37:23,120 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:37:23,120 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:37:23,121 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 16:37:23,123 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 4 个服务
-2025-07-05 16:43:07,842 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 16:43:07,842 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:43:07,843 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:43:07,849 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:43:07,851 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:43:07,853 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:43:07,853 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:43:07,853 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:43:07,854 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:43:18,797 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 16:43:18,797 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:43:18,798 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:43:18,804 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:43:18,806 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:43:18,808 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:43:18,808 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:43:18,808 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:43:18,809 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:43:29,819 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:43:29,820 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:43:29,826 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:43:29,828 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:43:29,830 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:43:29,830 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:43:29,830 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:43:29,831 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:45:40,676 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:45:40,676 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:45:40,682 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:45:40,684 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:45:40,687 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:45:40,687 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:45:40,687 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:45:40,688 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:45:43,879 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 16:45:43,879 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 16:45:43,885 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 16:45:43,887 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 16:45:43,889 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:45:43,889 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 16:45:43,889 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 16:45:43,889 - ExternalServiceManager - INFO - 🛑 开始停止所有外部服务...
-2025-07-05 16:45:43,889 - ExternalServiceManager - INFO - 🔗 开始从Consul注销服务...
-2025-07-05 16:45:43,891 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:45:43,893 - ExternalServiceManager - INFO - ✅ 服务注销成功: Consul (agent-Consul-127.0.0.1-8500)
-2025-07-05 16:45:43,894 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:45:43,896 - ExternalServiceManager - INFO - ✅ 服务注销成功: ollama_server (agent-ollama_server-127.0.0.1-11434)
-2025-07-05 16:45:43,897 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:45:43,899 - ExternalServiceManager - INFO - ✅ 服务注销成功: GPTSoVits_server (agent-GPTSoVits_server-127.0.0.1-9880)
-2025-07-05 16:45:43,900 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 16:45:43,903 - ExternalServiceManager - INFO - ✅ 服务注销成功: SenseVoice_server (agent-SenseVoice_server-127.0.0.1-20042)
-2025-07-05 16:45:52,133 - ExternalServiceManager - INFO - ✅ 服务停止完成！共停止 4 个服务
-2025-07-05 17:31:30,851 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 17:31:30,852 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 17:31:30,852 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 17:31:30,858 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 17:31:30,861 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
-2025-07-05 17:31:30,862 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
-2025-07-05 17:31:30,866 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 102855
-2025-07-05 17:31:31,872 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
-2025-07-05 17:31:31,872 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 17:31:31,873 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 17:31:31,874 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 17:31:31,874 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 17:31:31,874 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 17:31:31,875 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 0 个服务
-2025-07-05 17:31:31,876 - ExternalServiceManager - INFO - 正在关闭 Consul 服务注册器...
-2025-07-05 17:31:31,893 - ExternalServiceManager - INFO - Consul 进程已正常停止
-2025-07-05 17:31:31,894 - ExternalServiceManager - INFO - Consul 服务注册器已关闭
-2025-07-05 17:32:49,552 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 17:32:49,552 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 17:32:49,552 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 17:32:49,558 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 17:32:49,561 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
-2025-07-05 17:32:49,562 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
-2025-07-05 17:32:49,566 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 103468
-2025-07-05 17:32:50,573 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
-2025-07-05 17:32:50,573 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 17:32:50,575 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 17:32:50,575 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 17:32:50,575 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 17:32:50,576 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 17:32:50,582 - ExternalServiceManager - INFO - 正在关闭 Consul 服务注册器...
-2025-07-05 17:32:50,600 - ExternalServiceManager - INFO - Consul 进程已正常停止
-2025-07-05 17:32:50,600 - ExternalServiceManager - INFO - Consul 服务注册器已关闭
-2025-07-05 17:32:52,464 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 17:32:52,464 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 17:32:52,464 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 17:32:52,470 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 17:32:52,473 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
-2025-07-05 17:32:52,474 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
-2025-07-05 17:32:52,478 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 103543
-2025-07-05 17:32:53,485 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
-2025-07-05 17:32:53,486 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 17:32:53,488 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 17:32:53,488 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 17:32:53,488 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 17:32:53,488 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 17:32:53,491 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 0 个服务
-2025-07-05 17:32:53,492 - ExternalServiceManager - INFO - 正在关闭 Consul 服务注册器...
-2025-07-05 17:32:53,509 - ExternalServiceManager - INFO - Consul 进程已正常停止
-2025-07-05 17:32:53,510 - ExternalServiceManager - INFO - Consul 服务注册器已关闭
-2025-07-05 17:32:57,379 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 17:32:57,379 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 17:32:57,380 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 17:32:57,386 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 17:32:57,389 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
-2025-07-05 17:32:57,390 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
-2025-07-05 17:32:57,394 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 103643
-2025-07-05 17:32:58,401 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
-2025-07-05 17:32:58,401 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 17:32:58,403 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 17:32:58,403 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 17:32:58,403 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 17:32:58,403 - ExternalServiceManager - INFO - 🔗 开始向Consul注册所有服务...
-2025-07-05 17:32:58,404 - ExternalServiceManager - INFO - 正在关闭 Consul 服务注册器...
-2025-07-05 17:32:58,422 - ExternalServiceManager - INFO - Consul 进程已正常停止
-2025-07-05 17:32:58,422 - ExternalServiceManager - INFO - Consul 服务注册器已关闭
-2025-07-05 17:33:02,290 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 17:33:02,290 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 17:33:02,290 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 17:33:02,297 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 17:33:02,301 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
-2025-07-05 17:33:02,302 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
-2025-07-05 17:33:02,307 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 103747
-2025-07-05 17:33:03,314 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
-2025-07-05 17:33:03,315 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 17:33:03,316 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 17:33:03,316 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 17:33:03,316 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 17:33:03,316 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 17:33:03,319 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 0 个服务
-2025-07-05 17:33:03,320 - ExternalServiceManager - INFO - 正在关闭 Consul 服务注册器...
-2025-07-05 17:33:03,338 - ExternalServiceManager - INFO - Consul 进程已正常停止
-2025-07-05 17:33:03,338 - ExternalServiceManager - INFO - Consul 服务注册器已关闭
-2025-07-05 17:33:07,208 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 17:33:07,208 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 17:33:07,208 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 17:33:07,214 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 17:33:07,217 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
-2025-07-05 17:33:07,218 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
-2025-07-05 17:33:07,222 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 103846
-2025-07-05 17:33:08,230 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
-2025-07-05 17:33:08,230 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 17:33:08,232 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 17:33:08,232 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 17:33:08,232 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 17:33:08,232 - ExternalServiceManager - INFO - 🔗 开始从Consul注销所有服务...
-2025-07-05 17:33:08,233 - ExternalServiceManager - INFO - 正在关闭 Consul 服务注册器...
-2025-07-05 17:33:08,251 - ExternalServiceManager - INFO - Consul 进程已正常停止
-2025-07-05 17:33:08,251 - ExternalServiceManager - INFO - Consul 服务注册器已关闭
-2025-07-05 17:35:08,864 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 17:35:08,864 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 17:35:08,864 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 17:35:08,870 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 17:35:08,873 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
-2025-07-05 17:35:08,874 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
-2025-07-05 17:35:08,878 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 104873
-2025-07-05 17:35:09,885 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
-2025-07-05 17:35:09,886 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 17:35:09,887 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 17:35:09,887 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 17:35:09,887 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 17:35:09,889 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 17:35:09,895 - ExternalServiceManager - INFO - 正在关闭 Consul 服务注册器...
-2025-07-05 17:35:09,913 - ExternalServiceManager - INFO - Consul 进程已正常停止
-2025-07-05 17:35:09,913 - ExternalServiceManager - INFO - Consul 服务注册器已关闭
-2025-07-05 17:35:11,782 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 17:35:11,782 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 17:35:11,783 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 17:35:11,789 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 17:35:11,792 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
-2025-07-05 17:35:11,793 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
-2025-07-05 17:35:11,797 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 104941
-2025-07-05 17:35:12,804 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
-2025-07-05 17:35:12,804 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 17:35:12,806 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 17:35:12,806 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 17:35:12,806 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 17:35:12,806 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 17:35:12,808 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 0 个服务
-2025-07-05 17:35:12,810 - ExternalServiceManager - INFO - 正在关闭 Consul 服务注册器...
-2025-07-05 17:35:12,827 - ExternalServiceManager - INFO - Consul 进程已正常停止
-2025-07-05 17:35:12,827 - ExternalServiceManager - INFO - Consul 服务注册器已关闭
-2025-07-05 17:35:16,675 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 17:35:16,675 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 17:35:16,675 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 17:35:16,681 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 17:35:16,685 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
-2025-07-05 17:35:16,685 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
-2025-07-05 17:35:16,690 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 105031
-2025-07-05 17:35:17,696 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
-2025-07-05 17:35:17,696 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 17:35:17,698 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 17:35:17,698 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 17:35:17,698 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 17:35:17,698 - ExternalServiceManager - INFO - 🔗 开始向Consul注册所有服务...
-2025-07-05 17:35:17,699 - ExternalServiceManager - INFO - 正在关闭 Consul 服务注册器...
-2025-07-05 17:35:17,716 - ExternalServiceManager - INFO - Consul 进程已正常停止
-2025-07-05 17:35:17,717 - ExternalServiceManager - INFO - Consul 服务注册器已关闭
-2025-07-05 17:35:21,550 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 17:35:21,550 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 17:35:21,550 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 17:35:21,556 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 17:35:21,560 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
-2025-07-05 17:35:21,560 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
-2025-07-05 17:35:21,565 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 105127
-2025-07-05 17:35:22,572 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
-2025-07-05 17:35:22,572 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 17:35:22,573 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 17:35:22,574 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 17:35:22,574 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 17:35:22,574 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
-2025-07-05 17:35:22,576 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 0 个服务
-2025-07-05 17:35:22,577 - ExternalServiceManager - INFO - 正在关闭 Consul 服务注册器...
-2025-07-05 17:35:22,595 - ExternalServiceManager - INFO - Consul 进程已正常停止
-2025-07-05 17:35:22,595 - ExternalServiceManager - INFO - Consul 服务注册器已关闭
-2025-07-05 17:35:26,469 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
-2025-07-05 17:35:26,469 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
-2025-07-05 17:35:26,469 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
-2025-07-05 17:35:26,475 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
-2025-07-05 17:35:26,478 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
-2025-07-05 17:35:26,479 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
-2025-07-05 17:35:26,483 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 105213
-2025-07-05 17:35:27,490 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
-2025-07-05 17:35:27,491 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
-2025-07-05 17:35:27,492 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
-2025-07-05 17:35:27,492 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
-2025-07-05 17:35:27,492 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
-2025-07-05 17:35:27,493 - ExternalServiceManager - INFO - 🔗 开始从Consul注销所有服务...
-2025-07-05 17:35:27,494 - ExternalServiceManager - INFO - 正在关闭 Consul 服务注册器...
-2025-07-05 17:35:27,512 - ExternalServiceManager - INFO - Consul 进程已正常停止
-2025-07-05 17:35:27,512 - ExternalServiceManager - INFO - Consul 服务注册器已关闭
+2025-07-25 00:16:42,161 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
+2025-07-25 00:16:42,161 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
+2025-07-25 00:16:42,161 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
+2025-07-25 00:16:42,168 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-25 00:16:42,174 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
+2025-07-25 00:16:42,175 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
+2025-07-25 00:16:42,179 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 224935
+2025-07-25 00:16:43,184 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
+2025-07-25 00:16:43,184 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
+2025-07-25 00:16:43,186 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:16:43,186 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
+2025-07-25 00:16:43,186 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
+2025-07-25 00:16:43,187 - ExternalServiceManager - INFO - 🚀 开始启动所有外部服务...
+2025-07-25 00:20:07,858 - ExternalServiceManager - INFO - ✅ 基础服务启动成功: ['Consul', 'ollama_server', 'GPTSoVits_server', 'SenseVoice_server']
+2025-07-25 00:20:07,859 - ExternalServiceManager - INFO - 🔗 开始向Consul注册服务...
+2025-07-25 00:20:07,861 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:20:07,865 - ExternalServiceManager - INFO - ✅ 服务注册成功: Consul (agent-Consul-127.0.0.1-8500) - 127.0.0.1:8500
+2025-07-25 00:20:07,868 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:20:07,871 - ExternalServiceManager - INFO - ✅ 服务注册成功: ollama_server (agent-ollama_server-127.0.0.1-11434) - 127.0.0.1:11434
+2025-07-25 00:20:07,874 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:20:07,877 - ExternalServiceManager - INFO - ✅ 服务注册成功: GPTSoVits_server (agent-GPTSoVits_server-127.0.0.1-9880) - 127.0.0.1:9880
+2025-07-25 00:20:07,880 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:20:07,884 - ExternalServiceManager - INFO - ✅ 服务注册成功: SenseVoice_server (agent-SenseVoice_server-127.0.0.1-20042) - 127.0.0.1:20042
+2025-07-25 00:20:07,884 - ExternalServiceManager - INFO - 🎉 服务启动完成！共启动 4 个服务
+2025-07-25 00:20:07,902 - ExternalServiceManager - INFO - 正在关闭 Consul 服务注册器...
+2025-07-25 00:20:07,907 - ExternalServiceManager - INFO - 注销服务: agent-Consul-127.0.0.1-8500
+2025-07-25 00:20:07,913 - ExternalServiceManager - INFO - 注销服务: agent-GPTSoVits_server-127.0.0.1-9880
+2025-07-25 00:20:07,917 - ExternalServiceManager - INFO - 注销服务: agent-SenseVoice_server-127.0.0.1-20042
+2025-07-25 00:20:07,920 - ExternalServiceManager - INFO - 注销服务: agent-ollama_server-127.0.0.1-11434
+2025-07-25 00:20:07,923 - ExternalServiceManager - INFO - Consul 进程已正常停止
+2025-07-25 00:20:07,924 - ExternalServiceManager - INFO - Consul 服务注册器已关闭
+2025-07-25 00:22:12,043 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
+2025-07-25 00:22:12,043 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
+2025-07-25 00:22:12,044 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
+2025-07-25 00:22:12,050 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-25 00:22:12,054 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
+2025-07-25 00:22:12,055 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:22:12,055 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
+2025-07-25 00:22:12,055 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
+2025-07-25 00:22:12,055 - ExternalServiceManager - INFO - 🛑 开始停止所有外部服务...
+2025-07-25 00:22:12,055 - ExternalServiceManager - INFO - 🔗 开始从Consul注销服务...
+2025-07-25 00:22:12,056 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:22:12,057 - ExternalServiceManager - INFO - ✅ 服务注销成功: Consul (agent-Consul-127.0.0.1-8500)
+2025-07-25 00:22:12,058 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:22:12,059 - ExternalServiceManager - INFO - ✅ 服务注销成功: ollama_server (agent-ollama_server-127.0.0.1-11434)
+2025-07-25 00:22:12,060 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:22:12,061 - ExternalServiceManager - INFO - ✅ 服务注销成功: GPTSoVits_server (agent-GPTSoVits_server-127.0.0.1-9880)
+2025-07-25 00:22:12,062 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:22:12,063 - ExternalServiceManager - INFO - ✅ 服务注销成功: SenseVoice_server (agent-SenseVoice_server-127.0.0.1-20042)
+2025-07-25 00:22:20,334 - ExternalServiceManager - INFO - ✅ 服务停止完成！共停止 4 个服务
+2025-07-25 00:22:20,335 - ExternalServiceManager - INFO - 正在关闭 Consul 服务注册器...
+2025-07-25 00:22:20,337 - ExternalServiceManager - WARNING - 获取已注册服务列表失败: HTTPConnectionPool(host='127.0.0.1', port=8500): Max retries exceeded with url: /v1/agent/services (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7e9d77d5ec10>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2025-07-25 00:22:20,337 - ExternalServiceManager - INFO - Consul 服务注册器已关闭
+2025-07-25 00:25:15,120 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
+2025-07-25 00:25:15,121 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
+2025-07-25 00:25:15,121 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
+2025-07-25 00:25:15,129 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-25 00:25:15,154 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
+2025-07-25 00:25:15,155 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
+2025-07-25 00:25:15,159 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 230525
+2025-07-25 00:25:16,166 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
+2025-07-25 00:25:16,167 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
+2025-07-25 00:25:16,170 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:25:16,170 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
+2025-07-25 00:25:16,170 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
+2025-07-25 00:25:16,170 - ExternalServiceManager - INFO - 🛑 开始停止所有外部服务...
+2025-07-25 00:25:18,346 - ExternalServiceManager - INFO - ✅ 服务停止完成！共停止 0 个服务
+2025-07-25 00:25:18,348 - ExternalServiceManager - INFO - Consul 进程已正常停止
+2025-07-25 00:25:30,550 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
+2025-07-25 00:25:30,550 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
+2025-07-25 00:25:30,550 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
+2025-07-25 00:25:30,556 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-25 00:25:30,560 - ExternalServiceManager - INFO - Consul 未运行，尝试自动启动...
+2025-07-25 00:25:30,560 - ExternalServiceManager - INFO - 启动 Consul: consul agent -dev -client 0.0.0.0
+2025-07-25 00:25:30,565 - ExternalServiceManager - INFO - Consul 进程已启动，PID: 230770
+2025-07-25 00:25:31,570 - ExternalServiceManager - INFO - Consul 启动成功，耗时 2 秒
+2025-07-25 00:25:31,570 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
+2025-07-25 00:25:31,572 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:25:31,572 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
+2025-07-25 00:25:31,572 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
+2025-07-25 00:25:31,573 - ExternalServiceManager - INFO - 🚀 开始启动所有外部服务...
+2025-07-25 00:26:05,911 - ExternalServiceManager - INFO - ✅ 基础服务启动成功: ['Consul', 'ollama_server', 'GPTSoVits_server', 'SenseVoice_server']
+2025-07-25 00:26:05,911 - ExternalServiceManager - INFO - 🔗 开始向Consul注册服务...
+2025-07-25 00:26:05,914 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:26:05,917 - ExternalServiceManager - INFO - ✅ 服务注册成功: Consul (agent-Consul-127.0.0.1-8500) - 127.0.0.1:8500
+2025-07-25 00:26:05,919 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:26:05,922 - ExternalServiceManager - INFO - ✅ 服务注册成功: ollama_server (agent-ollama_server-127.0.0.1-11434) - 127.0.0.1:11434
+2025-07-25 00:26:05,924 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:26:05,928 - ExternalServiceManager - INFO - ✅ 服务注册成功: GPTSoVits_server (agent-GPTSoVits_server-127.0.0.1-9880) - 127.0.0.1:9880
+2025-07-25 00:26:05,930 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:26:05,934 - ExternalServiceManager - INFO - ✅ 服务注册成功: SenseVoice_server (agent-SenseVoice_server-127.0.0.1-20042) - 127.0.0.1:20042
+2025-07-25 00:26:05,934 - ExternalServiceManager - INFO - 🎉 服务启动完成！共启动 4 个服务
+2025-07-25 00:26:05,951 - ExternalServiceManager - INFO - Consul 进程已正常停止
+2025-07-25 00:28:31,380 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
+2025-07-25 00:28:31,380 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
+2025-07-25 00:28:31,380 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
+2025-07-25 00:28:31,387 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-25 00:28:31,391 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
+2025-07-25 00:28:31,393 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:28:31,393 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
+2025-07-25 00:28:31,393 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
+2025-07-25 00:28:31,393 - ExternalServiceManager - INFO - 🔍 从Consul发现服务...
+2025-07-25 00:28:31,396 - ExternalServiceManager - INFO - ✅ 从Consul发现服务: 4 个服务
+2025-07-25 00:29:09,574 - ExternalServiceManager - INFO - 设置 AGENT_HOME = /home/yomu/external_service_manager
+2025-07-25 00:29:09,574 - ExternalServiceManager - INFO - 工作目录从 /home/yomu/external_service_manager 切换到 /home/yomu/external_service_manager
+2025-07-25 00:29:09,574 - ExternalServiceManager - INFO - 传统管理器将使用配置文件: /home/yomu/external_service_manager/Init/ExternalServiceInit/config.yml
+2025-07-25 00:29:09,580 - ExternalServiceManager - INFO - ✅ 外部服务管理器初始化成功
+2025-07-25 00:29:09,585 - ExternalServiceManager - INFO - ✅ Consul 客户端初始化成功: http://127.0.0.1:8500
+2025-07-25 00:29:09,586 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功
+2025-07-25 00:29:09,586 - ExternalServiceManager - INFO - Consul 集成管理器初始化完成 (auto_register: True)
+2025-07-25 00:29:09,586 - ExternalServiceManager - INFO - ✅ Consul集成初始化成功
+2025-07-25 00:29:09,587 - ExternalServiceManager - INFO - ✅ Consul 连接测试成功

@@ -569,26 +569,28 @@ class ConsulServiceRegistry:
         
         return results
     
-    def shutdown(self):
+    def shutdown(self, deregister_services: bool = True):
         """
         关闭 Consul 服务注册器并清理资源
         
-        注销所有已注册的服务，并停止自动启动的 Consul 进程
+        Args:
+            deregister_services: 是否注销所有已注册的服务，默认为True
         """
         self.logger.info("正在关闭 Consul 服务注册器...")
         
-        try:
-            # 注销所有已注册的服务
-            if self.consul:
-                registered_services = self._get_registered_services()
-                for service in registered_services:
-                    service_id = service.get("ID", "")
-                    if service_id.startswith(f"{self.service_prefix}-"):
-                        self.logger.info(f"注销服务: {service_id}")
-                        self.consul.agent.service.deregister(service_id)
-        except Exception as e:
-            self.logger.warning(f"注销服务时出错: {e}")
-        
+        if deregister_services:
+            try:
+                # 注销所有已注册的服务
+                if self.consul:
+                    registered_services = self._get_registered_services()
+                    for service in registered_services:
+                        service_id = service.get("ID", "")
+                        if service_id.startswith(f"{self.service_prefix}-"):
+                            self.logger.info(f"注销服务: {service_id}")
+                            self.consul.agent.service.deregister(service_id)
+            except Exception as e:
+                self.logger.warning(f"注销服务时出错: {e}")
+
         try:
             # 如果是自动启动的 Consul，则停止它
             if hasattr(self, 'consul_manager') and self.consul_manager:
@@ -613,7 +615,10 @@ class ConsulServiceRegistry:
     def __del__(self):
         """析构函数，确保资源被清理"""
         try:
-            self.shutdown()
+            # 只停止自动启动的Consul进程，不注销服务
+            # 因为服务本身可能还在运行，只是管理器程序退出
+            if hasattr(self, 'consul_manager') and self.consul_manager:
+                self.consul_manager.stop_consul()
         except Exception:
             pass  # 忽略析构函数中的异常
 
