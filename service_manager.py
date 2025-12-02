@@ -105,6 +105,26 @@ class NewExternalServiceManager:
             if isinstance(script, str) and os.path.isabs(script):
                 cwd = os.path.dirname(script) or None
 
+            # 自动从 args 里提取端口号
+            def extract_port(args_list):
+                port = None
+                for i, a in enumerate(args_list):
+                    if a in ('-p', '--port') and i + 1 < len(args_list):
+                        try:
+                            port_candidate = args_list[i + 1]
+                            if isinstance(port_candidate, str) and port_candidate.isdigit():
+                                port = int(port_candidate)
+                        except Exception:
+                            continue
+                return port
+
+            port = extract_port(args)
+            # 兜底：部分服务端口写死
+            if not port and svc_name == 'ollama_server':
+                port = 11434
+            if not port and svc_name == 'Consul':
+                port = 8500
+
             if run_bg:
                 if shell:
                     proc = subprocess.Popen(' '.join(shlex.quote(a) for a in cmd), shell=True,
@@ -120,7 +140,7 @@ class NewExternalServiceManager:
                 else:
                     self.optional_processes.append((svc_name, proc))
 
-                # 记录 pid 到 state_dict
+                # 记录 pid 和端口到 state_dict
                 if state_dict is not None:
                     state_dict[svc_name] = {
                         'pid': pid,
@@ -128,6 +148,7 @@ class NewExternalServiceManager:
                         'script': script,
                         'args': args,
                         'cwd': cwd,
+                        'port': port
                     }
 
                 return (svc_name, pid)
@@ -249,18 +270,8 @@ class ExternalServiceManager:
         signal.signal(signal.SIGINT, self._signal_handler)
         signal.signal(signal.SIGTERM, self._signal_handler)
         
-        # 禁用Consul集成的自动清理，让服务在程序退出后继续在Consul中注册
-        if self.consul_manager and hasattr(self.consul_manager, 'registry'):
-            # 替换原有的__del__方法，避免自动注销服务
-            original_del = self.consul_manager.registry.__class__.__del__
-            def safe_del(obj_self):
-                try:
-                    # 只停止Consul进程，不注销服务
-                    if hasattr(obj_self, 'consul_manager') and obj_self.consul_manager:
-                        obj_self.consul_manager.stop_consul()
-                except Exception:
-                    pass
-            self.consul_manager.registry.__class__.__del__ = safe_del
+        # 不修改 Consul registry 的析构行为，避免在运行时意外停止 Consul 进程。
+        # 如果需要持久化注册，请通过配置或显式调用注册/注销接口来控制。
     
     def _signal_handler(self, signum, frame):
         """处理系统信号，优雅关闭"""
@@ -452,7 +463,14 @@ class ExternalServiceManager:
                     port = self._get_service_port_from_config(name)
                 except Exception:
                     port = None
-                entry['port'] = port if port else 'unknown'
+                # 如果端口获取失败，尝试从 entry 里找
+                if not port:
+                    port = entry.get('port')
+                # 如果端口依然无效，警告并设置为 None
+                if not port or port == 'unknown':
+                    self.logger.warning(f"服务 {name} 缺少有效端口信息，Consul 注册可能失败！")
+                    port = None
+                entry['port'] = port
 
                 # 状态：检查 pid 是否存活
                 status = 'stopped'
@@ -480,6 +498,15 @@ class ExternalServiceManager:
 
             self._save_service_state()
             self.logger.info(f"✅ 服务启动完成！共启动 {len(self.running_services)} 个服务")
+            # 启动后自动注册到 Consul
+            if self.consul_manager:
+                try:
+                    self.logger.info("🔗 启动后自动注册所有服务到 Consul...")
+                    self.consul_register_all()
+                except Exception as e:
+                    self.logger.warning(f"自动注册到 Consul 失败: {e}")
+            else:
+                self.logger.info("Consul 集成未启用，跳过注册步骤")
             return True
         except Exception as e:
             self.logger.error(f"❌ 服务启动失败: {e}")
