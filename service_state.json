@@ -1,7 +1,7 @@
 {
   "Consul": {
-    "pid": 961897,
-    "start_time": 1764669729.6843677,
+    "pid": 977827,
+    "start_time": 1764670280.569281,
     "script": "consul",
     "args": [
       "agent",
@@ -9,20 +9,26 @@
       "-client",
       "{{ GetPrivateInterfaces | exclude \"type\" \"ipv6\" | join \"address\" \" \" }} {{ GetAllInterfaces | include \"flags\" \"loopback\" | join \"address\" \" \" }}"
     ],
-    "cwd": null
+    "cwd": null,
+    "type": "base",
+    "port": 8500,
+    "status": "stopped"
   },
   "ollama_server": {
-    "pid": 961899,
-    "start_time": 1764669729.6874945,
+    "pid": 977828,
+    "start_time": 1764670280.5723891,
     "script": "ollama",
     "args": [
       "serve"
     ],
-    "cwd": null
+    "cwd": null,
+    "type": "base",
+    "port": 11434,
+    "status": "stopped"
   },
   "GPTSoVits_server": {
-    "pid": 961901,
-    "start_time": 1764669729.690664,
+    "pid": 977830,
+    "start_time": 1764670280.661913,
     "script": "/home/yomu/GPTSoVits/server.py",
     "args": [
       "-a",
@@ -30,13 +36,19 @@
       "-p",
       "9880"
     ],
-    "cwd": "/home/yomu/GPTSoVits"
+    "cwd": "/home/yomu/GPTSoVits",
+    "type": "base",
+    "port": 9880,
+    "status": "running"
   },
   "SenseVoice_server": {
-    "pid": 961906,
-    "start_time": 1764669729.6930761,
+    "pid": 977852,
+    "start_time": 1764670280.725982,
     "script": "/home/yomu/SenseVoice/server.py",
     "args": [],
-    "cwd": "/home/yomu/SenseVoice"
+    "cwd": "/home/yomu/SenseVoice",
+    "type": "base",
+    "port": 20042,
+    "status": "running"
   }
 }

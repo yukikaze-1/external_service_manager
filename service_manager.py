@@ -435,6 +435,49 @@ class ExternalServiceManager:
             # 新增：启动时记录详细进程信息
             self.running_services = {}
             base_results, optional_results = self.manager.init_services(state_dict=self.running_services)
+
+            # 丰富运行时信息：类型、端口、状态
+            try:
+                import psutil
+            except Exception:
+                psutil = None
+
+            # helper to set fields
+            def _enrich(name, pid, svc_type):
+                entry = self.running_services.get(name, {})
+                entry.setdefault('pid', pid)
+                entry['type'] = svc_type
+                # 端口优先从配置获取
+                try:
+                    port = self._get_service_port_from_config(name)
+                except Exception:
+                    port = None
+                entry['port'] = port if port else 'unknown'
+
+                # 状态：检查 pid 是否存活
+                status = 'stopped'
+                if pid and pid > 0 and psutil is not None:
+                    try:
+                        p = psutil.Process(pid)
+                        status = 'running' if p.is_running() and p.status() != psutil.STATUS_ZOMBIE else 'stopped'
+                    except Exception:
+                        status = 'stopped'
+                elif pid and pid > 0:
+                    # 没有 psutil 的退路：尝试 os.kill 0
+                    try:
+                        os.kill(pid, 0)
+                        status = 'running'
+                    except Exception:
+                        status = 'stopped'
+
+                entry['status'] = status
+                self.running_services[name] = entry
+
+            for name, pid in (base_results or []):
+                _enrich(name, pid, 'base')
+            for name, pid in (optional_results or []):
+                _enrich(name, pid, 'optional')
+
             self._save_service_state()
             self.logger.info(f"✅ 服务启动完成！共启动 {len(self.running_services)} 个服务")
             return True
