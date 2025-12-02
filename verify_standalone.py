@@ -37,9 +37,7 @@ def verify_structure():
         ],
         "dirs": [
             "Module/Utils",
-            "legacy/core",
-            "legacy/exceptions", 
-            "legacy/utils"
+            # legacy 已弃用并会被删除
         ]
     }
     
@@ -92,11 +90,7 @@ def main():
         print("│   └── Utils/")
         print("│       ├── Logger.py")
         print("│       └── ConfigTools.py")
-        print("└── legacy/                # 本地化组件")
-        print("    ├── config.yml")
-        print("    ├── core/")
-        print("    ├── exceptions/")
-        print("    └── utils/")
+        print("└── (legacy 已弃用)")
         print("\n🎯 现在可以将此目录移动到任何地方并独立运行！")
         print("\n使用方法:")
         print("  python service_manager.py --help")

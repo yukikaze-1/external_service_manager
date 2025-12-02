@@ -2,29 +2,29 @@
   "Consul": {
     "type": "base",
     "port": 8500,
-    "process_id": 630046,
-    "start_time": 1764661087.6569343,
+    "process_id": 839049,
+    "start_time": 1764666584.5794168,
     "status": "running"
   },
   "ollama_server": {
     "type": "base",
     "port": 11434,
-    "process_id": 630179,
-    "start_time": 1764661087.671256,
+    "process_id": 839050,
+    "start_time": 1764666584.584647,
     "status": "running"
   },
   "GPTSoVits_server": {
     "type": "base",
     "port": 9880,
-    "process_id": 630263,
-    "start_time": 1764661087.6849132,
+    "process_id": 839052,
+    "start_time": 1764666584.5898583,
     "status": "running"
   },
   "SenseVoice_server": {
     "type": "base",
     "port": 20042,
-    "process_id": 633070,
-    "start_time": 1764661087.69607,
+    "process_id": 839067,
+    "start_time": 1764666584.5950606,
     "status": "running"
   }
 }

@@ -27,9 +27,13 @@ def backup_config(config_path: Path) -> Path:
 
 
 def remove_consul_from_legacy_config():
-    """从 legacy/config.yml 中移除 Consul 配置"""
-    legacy_config_path = Path(__file__).parent.parent / "legacy" / "config.yml"
-    
+    """尝试从初始化的外部服务配置中移除 Consul 配置。
+    优先使用 `Init/ExternalServiceInit/config.yml`，回退到仓库根 `config.yml`。"""
+    project_root = Path(__file__).parent.parent
+    legacy_config_path = project_root / "Init" / "ExternalServiceInit" / "config.yml"
+    if not legacy_config_path.exists():
+        legacy_config_path = project_root / "config.yml"
+
     if not legacy_config_path.exists():
         logger.warning(f"配置文件不存在: {legacy_config_path}")
         return False
@@ -64,11 +68,8 @@ def remove_consul_from_legacy_config():
                     config['external_services']['base_services'] = new_base_services
         
         if consul_removed:
-            # 写入更新后的配置
+            # 写入更新后的配置（直接覆盖目标配置）
             with open(legacy_config_path, 'w', encoding='utf-8') as f:
-                f.write("# 外部服务配置文件\n")
-                f.write("# 注意: Consul 配置已移除，避免循环依赖\n")
-                f.write("# Consul 现在通过主配置文件 config.yml 管理\n\n")
                 yaml.dump(config, f, default_flow_style=False, allow_unicode=True, indent=2)
             
             logger.info("✅ Consul 配置已从 legacy/config.yml 中移除")

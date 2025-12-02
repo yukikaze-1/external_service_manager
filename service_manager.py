@@ -30,14 +30,162 @@ from pathlib import Path
 current_dir = Path(__file__).parent
 sys.path.insert(0, str(current_dir))
 
-# 导入本地化的外部服务管理器
-try:
-    from legacy.core import ExternalServiceManager as LegacyExternalServiceManager
-    from legacy.exceptions import *
-except ImportError as e:
-    print(f"错误：无法导入本地化的外部服务管理器: {e}")
-    print("请确保 legacy 目录存在并包含必要文件")
-    sys.exit(1)
+# 旧的 `legacy` 实现已弃用。这里提供一个最小的替代实现
+# NewExternalServiceManager 提供 init_services/stop_all_services/get_service_status
+# 的最小功能，足以让 CLI 在移除 legacy 之后继续工作。
+import subprocess
+import shlex
+import signal
+
+
+class NewExternalServiceManager:
+    """最小化的外部服务管理器替代实现
+
+    特性：
+    - 读取 `Init/ExternalServiceInit/config.yml` 或仓库根 `config.yml` 中的 external_services
+    - 启动后台服务（使用简单的 subprocess.Popen）
+    - 停止已启动的服务（通过进程组 SIGTERM -> SIGKILL）
+    - 返回基本的服务状态信息
+    注意：此实现不包含复杂的重试/健康检查/配置验证逻辑。
+    """
+
+    def __init__(self):
+        self.base_processes = []  # List[Tuple[name, Popen]]
+        self.optional_processes = []
+        self.config = {}
+
+    def _load_config(self):
+        project_root = Path(__file__).parent
+        cfg_path = Path(os.environ.get('AGENT_HOME', project_root)) / "Init" / "ExternalServiceInit" / "config.yml"
+        if not cfg_path.exists():
+            cfg_path = project_root / "config.yml"
+
+        if not cfg_path.exists():
+            self.config = {'external_services': {'base_services': [], 'optional_services': []}}
+            return
+
+        import yaml
+        try:
+            with open(cfg_path, 'r', encoding='utf-8') as f:
+                full = yaml.safe_load(f) or {}
+                self.config = full.get('external_services', full)
+        except Exception:
+            self.config = {'external_services': {'base_services': [], 'optional_services': []}}
+
+    def _start_service_from_config(self, svc_item, is_base: bool):
+        # svc_item 通常是 {name: config}
+        try:
+            if isinstance(svc_item, dict) and len(svc_item) == 1:
+                svc_name = list(svc_item.keys())[0]
+                svc_conf = svc_item[svc_name]
+            elif isinstance(svc_item, dict) and 'service_name' in svc_item:
+                svc_name = svc_item.get('service_name')
+                svc_conf = svc_item
+            else:
+                return ("unknown", -1)
+
+            script = svc_conf.get('script')
+            args = svc_conf.get('args', []) or []
+            use_python = svc_conf.get('use_python', False)
+            conda_env = svc_conf.get('conda_env', '')
+            run_bg = svc_conf.get('run_in_background', True)
+
+            if use_python and conda_env and script:
+                python_bin = os.path.join(conda_env, 'bin', 'python')
+                cmd = [python_bin, script] + args
+                shell = False
+            else:
+                if isinstance(script, str):
+                    cmd = [script] + args
+                    shell = True
+                else:
+                    return (svc_name, -1)
+
+            cwd = None
+            if isinstance(script, str) and os.path.isabs(script):
+                cwd = os.path.dirname(script) or None
+
+            if run_bg:
+                if shell:
+                    proc = subprocess.Popen(' '.join(shlex.quote(a) for a in cmd), shell=True,
+                                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                             preexec_fn=os.setsid, cwd=cwd)
+                else:
+                    proc = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                             preexec_fn=os.setsid, cwd=cwd)
+
+                pid = proc.pid
+                if is_base:
+                    self.base_processes.append((svc_name, proc))
+                else:
+                    self.optional_processes.append((svc_name, proc))
+
+                return (svc_name, pid)
+            else:
+                # 前台运行：同步执行
+                if shell:
+                    subprocess.run(' '.join(shlex.quote(a) for a in cmd), shell=True, check=True, cwd=cwd)
+                else:
+                    subprocess.run(cmd, check=True, cwd=cwd)
+                return (svc_name, -1)
+
+        except Exception:
+            return (svc_name if 'svc_name' in locals() else 'unknown', -1)
+
+    def init_services(self):
+        self._load_config()
+        base_cfg = self.config.get('base_services', [])
+        optional_cfg = self.config.get('optional_services') or []
+
+        base_results = []
+        optional_results = []
+
+        for item in base_cfg:
+            base_results.append(self._start_service_from_config(item, True))
+
+        for item in optional_cfg:
+            optional_results.append(self._start_service_from_config(item, False))
+
+        return base_results, optional_results
+
+    def stop_all_services(self):
+        # 停止可选服务
+        for name, proc in self.optional_processes.copy():
+            try:
+                if proc.poll() is None:
+                    os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
+            except Exception:
+                pass
+
+        # 停止基础服务
+        for name, proc in self.base_processes.copy():
+            try:
+                if proc.poll() is None:
+                    os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
+            except Exception:
+                pass
+
+        self.base_processes.clear()
+        self.optional_processes.clear()
+
+    def get_service_status(self):
+        base_status = []
+        for name, proc in self.base_processes:
+            base_status.append({
+                'name': name,
+                'pid': proc.pid,
+                'status': 'running' if proc.poll() is None else 'stopped'
+            })
+
+        optional_status = []
+        for name, proc in self.optional_processes:
+            optional_status.append({
+                'name': name,
+                'pid': proc.pid,
+                'status': 'running' if proc.poll() is None else 'stopped'
+            })
+
+        return {'base_services': base_status, 'optional_services': optional_status}
 
 # 导入Consul集成模块
 try:
@@ -69,12 +217,10 @@ class ExternalServiceManager:
         # 设置配置路径环境变量，确保传统管理器能找到正确的配置
         self._setup_environment(config_path)
         
-        # 初始化传统的外部服务管理器
+        # 初始化新的最小化外部服务管理器（替代 legacy）
         try:
-            self.legacy_manager = LegacyExternalServiceManager()
-            # 禁用传统管理器的自动清理，避免程序结束时自动停止服务
-            self.legacy_manager._auto_cleanup = False
-            self.logger.info("✅ 外部服务管理器初始化成功")
+            self.manager = NewExternalServiceManager()
+            self.logger.info("✅ 外部服务管理器（新实现）初始化成功")
         except Exception as e:
             self.logger.error(f"❌ 外部服务管理器初始化失败: {e}")
             raise
@@ -170,9 +316,9 @@ class ExternalServiceManager:
             else:
                 self.logger.warning(f"用户指定的配置文件不存在: {config_path}")
         
-        # 如果目标配置文件不存在，使用本地配置文件
+        # 如果目标配置文件不存在，使用仓库根目录的配置文件作为回退
         if not target_config.exists():
-            local_config = Path(__file__).parent / "legacy" / "config.yml"
+            local_config = Path(__file__).parent / "config.yml"
             if local_config.exists():
                 import shutil
                 shutil.copy2(str(local_config), str(target_config))
@@ -187,11 +333,14 @@ class ExternalServiceManager:
         """从配置文件获取服务的真实端口"""
         try:
             import yaml
-            config_file = Path(__file__).parent / "legacy" / "config.yml"
-            
+            # 优先从 Init/ExternalServiceInit/config.yml 查找配置，回退到仓库根 config.yml
+            config_file = Path(__file__).parent / "Init" / "ExternalServiceInit" / "config.yml"
+            if not config_file.exists():
+                config_file = Path(__file__).parent / "config.yml"
+
             if not config_file.exists():
                 return None
-            
+
             with open(config_file, 'r', encoding='utf-8') as f:
                 config = yaml.safe_load(f)
             
@@ -274,8 +423,8 @@ class ExternalServiceManager:
         self.logger.info("🚀 开始启动所有外部服务...")
         
         try:
-            # 使用传统管理器启动服务
-            base_services, optional_services = self.legacy_manager.init_services()
+            # 使用新管理器启动服务
+            base_services, optional_services = self.manager.init_services()
             
             # 记录启动的服务
             started_services = {}
@@ -338,10 +487,11 @@ class ExternalServiceManager:
                 self.logger.info("🔗 开始从Consul注销服务...")
                 self._deregister_services_from_consul(self.running_services)
             
-            if hasattr(self.legacy_manager, 'stop_all_services'):
-                self.legacy_manager.stop_all_services()
+            # 使用新管理器停止服务
+            if hasattr(self, 'manager') and hasattr(self.manager, 'stop_all_services'):
+                self.manager.stop_all_services()
             else:
-                self.logger.warning("传统管理器不支持停止服务功能")
+                self.logger.warning("管理器不支持停止服务功能")
             
             # 清空状态
             stopped_count = len(self.running_services)
@@ -365,11 +515,11 @@ class ExternalServiceManager:
         
         # 获取详细状态
         try:
-            if hasattr(self.legacy_manager, 'get_service_status'):
-                legacy_status = self.legacy_manager.get_service_status()
+            if hasattr(self, 'manager') and hasattr(self.manager, 'get_service_status'):
+                legacy_status = self.manager.get_service_status()
                 status["legacy_status"] = legacy_status
         except Exception as e:
-            self.logger.warning(f"获取传统状态失败: {e}")
+            self.logger.warning(f"获取管理器状态失败: {e}")
         
         # 添加记录的服务信息
         for service_name, service_info in self.running_services.items():

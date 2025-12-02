@@ -143,7 +143,10 @@ class ConsulManager:
     
     def __del__(self):
         """析构函数，确保 Consul 进程被清理"""
-        self.stop_consul()
+        # 原先在析构时会停止 Consul 进程，
+        # 这会导致在脚本退出后已注册的服务从 Consul 中消失。
+        # 为了让服务在脚本退出后保持在 Consul 中，移除自动停止逻辑。
+        pass
 
 
 class ConsulServiceRegistry:
@@ -633,13 +636,8 @@ class ConsulServiceRegistry:
     
     def __del__(self):
         """析构函数，确保资源被清理"""
-        try:
-            # 只停止自动启动的Consul进程，不注销服务
-            # 因为服务本身可能还在运行，只是管理器程序退出
-            if hasattr(self, 'consul_manager') and self.consul_manager:
-                self.consul_manager.stop_consul()
-        except Exception:
-            pass  # 忽略析构函数中的异常
+        # 不在析构时停止 Consul 或注销服务，保留运行状态以便长期可见性。
+        return
 
 
 class ConsulIntegrationManager:

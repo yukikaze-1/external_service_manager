@@ -38,13 +38,7 @@ check_dependencies() {
         echo "❌ 错误：未找到 python3"
         exit 1
     fi
-    
-    # 检查传统管理器目录
-    if [ ! -d "$AGENT_HOME/legacy" ]; then
-        echo "❌ 错误：未找到本地化外部服务管理器"
-        echo "请确保 legacy 目录存在"
-        exit 1
-    fi
+    # 旧的 legacy 目录不再必需
 }
 
 # 主逻辑
