@@ -1,5 +1,5 @@
 # Python 相关
-__pycache__/
+__pycache__/*
 *.py[cod]
 *$py.class
 *.so
@@ -19,6 +19,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.pyc
 
 # 日志文件
 *.log

@@ -40,7 +40,7 @@ external_services:
       is_base: true
       log_file: SenseVoice_server.log
       run_in_background: true
-      script: /home/yomu/SenseVoice/SenseVoice_server.py
+      script: /home/yomu/SenseVoice/server.py
       service_name: SenseVoice_server
       startup_timeout: 60
       use_python: true
