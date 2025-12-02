@@ -706,41 +706,130 @@ class ExternalServiceManager:
                 self.logger.info("🔗 开始从Consul注销服务...")
                 self._deregister_services_from_consul(self.running_services)
 
-            import psutil
-            import time
-            killed = 0
-            for svc_name, info in self.running_services.items():
-                pid = info.get('pid')
-                if not pid:
-                    continue
-                try:
-                    p = psutil.Process(pid)
-                    # 先递归 SIGTERM
-                    children = p.children(recursive=True)
-                    for child in children:
-                        try:
-                            child.terminate()
-                        except Exception:
-                            pass
-                    try:
-                        p.terminate()
-                    except Exception:
-                        pass
-                    # 等待进程退出
-                    gone, alive = psutil.wait_procs([p]+children, timeout=3)
-                    # 还活着的全部 SIGKILL
-                    for proc in alive:
-                        try:
-                            proc.kill()
-                        except Exception:
-                            pass
-                    killed += 1
-                except Exception as e:
-                    self.logger.warning(f"无法终止服务 {svc_name} (pid={pid}): {e}")
+            # Prefer using psutil for reliable process inspection and termination.
+            try:
+                import psutil
+            except Exception:
+                psutil = None
 
-            # 使用新管理器停止本进程内的服务
+            killed = 0
+
+            if psutil is None:
+                self.logger.warning("psutil 未安装，无法按命令或端口精确匹配进程；将调用管理器的 stop_all_services() 作为退路")
+            # 遍历已记录的服务，尝试多种方式终止
+            for svc_name, info in list(self.running_services.items()):
+                pid = info.get('pid')
+                stopped = False
+
+                # 方式1：按照记录的 pid 终止
+                if pid and psutil is not None:
+                    try:
+                        p = psutil.Process(pid)
+                        children = p.children(recursive=True)
+                        for child in children:
+                            try:
+                                child.terminate()
+                            except Exception:
+                                pass
+                        try:
+                            p.terminate()
+                        except Exception:
+                            pass
+                        gone, alive = psutil.wait_procs([p] + children, timeout=3)
+                        for proc in alive:
+                            try:
+                                proc.kill()
+                            except Exception:
+                                pass
+                        stopped = True
+                        killed += 1
+                        self.logger.info(f"已基于 pid 终止服务 {svc_name} (pid={pid})")
+                    except psutil.NoSuchProcess:
+                        self.logger.info(f"记录的 pid 不存在: {svc_name} (pid={pid})，将尝试按命令/端口匹配")
+                    except Exception as e:
+                        self.logger.warning(f"按 pid 终止服务失败 {svc_name} (pid={pid}): {e}")
+
+                # 方式2：按命令行或服务名或端口匹配进程
+                if not stopped and psutil is not None:
+                    try:
+                        script = info.get('script') or ''
+                        port = None
+                        try:
+                            # port 可能是 'unknown' 或字符串
+                            pval = info.get('port')
+                            if isinstance(pval, int):
+                                port = pval
+                            elif isinstance(pval, str) and pval.isdigit():
+                                port = int(pval)
+                        except Exception:
+                            port = None
+
+                        candidates = []
+                        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+                            try:
+                                cmdline_list = proc.info.get('cmdline') or []
+                                cmdline = ' '.join(cmdline_list)
+                                pname = proc.info.get('name') or ''
+
+                                matched = False
+                                if script and script in cmdline:
+                                    matched = True
+                                if not matched and svc_name and (svc_name in pname or svc_name in cmdline):
+                                    matched = True
+
+                                # 检查端口监听
+                                if not matched and port:
+                                    try:
+                                        for c in proc.connections(kind='inet'):
+                                            laddr = c.laddr
+                                            if laddr and getattr(laddr, 'port', None) == port:
+                                                matched = True
+                                                break
+                                    except Exception:
+                                        pass
+
+                                if matched:
+                                    candidates.append(proc)
+                            except Exception:
+                                continue
+
+                        if candidates:
+                            for proc in candidates:
+                                try:
+                                    children = proc.children(recursive=True)
+                                    for child in children:
+                                        try:
+                                            child.terminate()
+                                        except Exception:
+                                            pass
+                                    try:
+                                        proc.terminate()
+                                    except Exception:
+                                        pass
+                                    gone, alive = psutil.wait_procs([proc] + children, timeout=3)
+                                    for pleft in alive:
+                                        try:
+                                            pleft.kill()
+                                        except Exception:
+                                            pass
+                                    killed += 1
+                                    stopped = True
+                                    self.logger.info(f"通过命令/端口匹配终止服务 {svc_name} (pid={proc.pid})")
+                                except Exception as e:
+                                    self.logger.warning(f"通过命令/端口终止进程失败 {svc_name} (pid={proc.pid}): {e}")
+                        else:
+                            self.logger.warning(f"无法找到匹配的进程以终止 {svc_name} (pid={pid})")
+                    except Exception as e:
+                        self.logger.warning(f"尝试按命令或端口匹配终止 {svc_name} 失败: {e}")
+
+                # 记录停止失败也继续循环，最后统一调用 manager 的 stop_all_services 作为额外保障
+
+            # 使用新管理器停止本进程内的服务（如果它在本次运行中启动过）
             if hasattr(self, 'manager') and hasattr(self.manager, 'stop_all_services'):
-                self.manager.stop_all_services()
+                try:
+                    self.manager.stop_all_services()
+                except Exception as e:
+                    self.logger.warning(f"调用内部管理器停止服务失败: {e}")
             else:
                 self.logger.warning("管理器不支持停止服务功能")
 
@@ -748,7 +837,7 @@ class ExternalServiceManager:
             self.running_services.clear()
             self._save_service_state()
 
-            self.logger.info(f"✅ 服务停止完成！共停止 {stopped_count} 个服务，递归 kill {killed} 个进程树")
+            self.logger.info(f"✅ 服务停止完成！共停止 {stopped_count} 个服务，尝试终止 {killed} 个进程或进程树")
             return True
 
         except Exception as e:
