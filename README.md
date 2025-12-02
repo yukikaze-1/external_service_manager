@@ -4,7 +4,7 @@
 
 ## 📦 安装
 
-### 方式1：直接使用（推荐）
+推荐使用 `requirements.txt` 并直接运行脚本（无需将项目安装为包）。
 
 ```bash
 # 克隆或下载项目
@@ -14,18 +14,8 @@ cd ExternalServiceManager
 # 安装依赖
 pip install -r requirements.txt
 
-# 直接运行
-python service_manager.py --help
-```
-
-### 方式2：安装为Python包
-
-```bash
-# 安装依赖并设置
-pip install -e .
-
-# 使用命令行工具
-external-service-manager --help
+# 查看帮助（直接运行脚本）
+python3 service_manager.py --help
 ```
 
 ## 🔄 本地化改进 (最新更新)
@@ -57,7 +47,7 @@ ExternalServiceManager/                 # 项目根目录
 ├── config.yml                         # 主配置文件
 ├── service_state.json                 # 服务状态文件（自动生成）
 ├── requirements.txt                   # Python依赖
-├── setup.py                          # 包安装配置
+├── (不再包含 `setup.py`，使用 `requirements.txt` 管理依赖)
 ├── README.md                          # 本文档
 ├── LICENSE                           # 许可证
 ├── docs/                             # 📚 文档目录
