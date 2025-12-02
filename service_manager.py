@@ -72,7 +72,7 @@ class NewExternalServiceManager:
         except Exception:
             self.config = {'external_services': {'base_services': [], 'optional_services': []}}
 
-    def _start_service_from_config(self, svc_item, is_base: bool):
+    def _start_service_from_config(self, svc_item, is_base: bool, state_dict=None):
         # svc_item 通常是 {name: config}
         try:
             if isinstance(svc_item, dict) and len(svc_item) == 1:
@@ -120,6 +120,16 @@ class NewExternalServiceManager:
                 else:
                     self.optional_processes.append((svc_name, proc))
 
+                # 记录 pid 到 state_dict
+                if state_dict is not None:
+                    state_dict[svc_name] = {
+                        'pid': pid,
+                        'start_time': time.time(),
+                        'script': script,
+                        'args': args,
+                        'cwd': cwd,
+                    }
+
                 return (svc_name, pid)
             else:
                 # 前台运行：同步执行
@@ -132,7 +142,7 @@ class NewExternalServiceManager:
         except Exception:
             return (svc_name if 'svc_name' in locals() else 'unknown', -1)
 
-    def init_services(self):
+    def init_services(self, state_dict=None):
         self._load_config()
         base_cfg = self.config.get('base_services', [])
         optional_cfg = self.config.get('optional_services') or []
@@ -141,10 +151,10 @@ class NewExternalServiceManager:
         optional_results = []
 
         for item in base_cfg:
-            base_results.append(self._start_service_from_config(item, True))
+            base_results.append(self._start_service_from_config(item, True, state_dict=state_dict))
 
         for item in optional_cfg:
-            optional_results.append(self._start_service_from_config(item, False))
+            optional_results.append(self._start_service_from_config(item, False, state_dict=state_dict))
 
         return base_results, optional_results
 
@@ -421,89 +431,44 @@ class ExternalServiceManager:
     def start_all_services(self) -> bool:
         """启动所有服务"""
         self.logger.info("🚀 开始启动所有外部服务...")
-        
         try:
-            # 使用新管理器启动服务
-            base_services, optional_services = self.manager.init_services()
-            
-            # 记录启动的服务
-            started_services = {}
-            
-            if base_services:
-                for name, process_id in base_services:
-                    # 获取真实的服务端口
-                    real_port = self._get_service_port_from_config(name)
-                    port = real_port if real_port else process_id  # 如果找不到真实端口，使用进程ID作为后备
-                    
-                    started_services[name] = {
-                        "type": "base",
-                        "port": port,
-                        "process_id": process_id,  # 保存进程ID以便管理
-                        "start_time": time.time(),
-                        "status": "running"
-                    }
-                self.logger.info(f"✅ 基础服务启动成功: {[name for name, _ in base_services]}")
-            
-            if optional_services:
-                for name, process_id in optional_services:
-                    # 获取真实的服务端口
-                    real_port = self._get_service_port_from_config(name)
-                    port = real_port if real_port else process_id
-                    
-                    started_services[name] = {
-                        "type": "optional", 
-                        "port": port,
-                        "process_id": process_id,  # 保存进程ID以便管理
-                        "start_time": time.time(),
-                        "status": "running"
-                    }
-                self.logger.info(f"✅ 可选服务启动成功: {[name for name, _ in optional_services]}")
-            
-            # 更新状态
-            self.running_services.update(started_services)
+            # 新增：启动时记录详细进程信息
+            self.running_services = {}
+            base_results, optional_results = self.manager.init_services(state_dict=self.running_services)
             self._save_service_state()
-            
-            # Consul集成：注册启动的服务
-            if self.consul_manager and started_services:
-                self.logger.info("🔗 开始向Consul注册服务...")
-                self._register_services_to_consul(started_services)
-            
-            total_services = len(base_services) + len(optional_services)
-            self.logger.info(f"🎉 服务启动完成！共启动 {total_services} 个服务")
-            
+            self.logger.info(f"✅ 服务启动完成！共启动 {len(self.running_services)} 个服务")
             return True
-            
         except Exception as e:
             self.logger.error(f"❌ 服务启动失败: {e}")
             return False
     
-    def stop_all_services(self) -> bool:
-        """停止所有服务"""
-        self.logger.info("🛑 开始停止所有外部服务...")
+    # def stop_all_services(self) -> bool:
+    #     """停止所有服务"""
+    #     self.logger.info("🛑 开始停止所有外部服务...")
         
-        try:
-            # Consul集成：注销服务
-            if self.consul_manager and self.running_services:
-                self.logger.info("🔗 开始从Consul注销服务...")
-                self._deregister_services_from_consul(self.running_services)
+    #     try:
+    #         # Consul集成：注销服务
+    #         if self.consul_manager and self.running_services:
+    #             self.logger.info("🔗 开始从Consul注销服务...")
+    #             self._deregister_services_from_consul(self.running_services)
             
-            # 使用新管理器停止服务
-            if hasattr(self, 'manager') and hasattr(self.manager, 'stop_all_services'):
-                self.manager.stop_all_services()
-            else:
-                self.logger.warning("管理器不支持停止服务功能")
+    #         # 使用新管理器停止服务
+    #         if hasattr(self, 'manager') and hasattr(self.manager, 'stop_all_services'):
+    #             self.manager.stop_all_services()
+    #         else:
+    #             self.logger.warning("管理器不支持停止服务功能")
             
-            # 清空状态
-            stopped_count = len(self.running_services)
-            self.running_services.clear()
-            self._save_service_state()
+    #         # 清空状态
+    #         stopped_count = len(self.running_services)
+    #         self.running_services.clear()
+    #         self._save_service_state()
             
-            self.logger.info(f"✅ 服务停止完成！共停止 {stopped_count} 个服务")
-            return True
+    #         self.logger.info(f"✅ 服务停止完成！共停止 {stopped_count} 个服务")
+    #         return True
             
-        except Exception as e:
-            self.logger.error(f"❌ 服务停止失败: {e}")
-            return False
+    #     except Exception as e:
+    #         self.logger.error(f"❌ 服务停止失败: {e}")
+    #         return False
     
     def get_service_status(self) -> Dict:
         """获取服务状态"""
@@ -689,17 +654,63 @@ class ExternalServiceManager:
         
         return consul_status
 
-    def restart_all_services(self) -> bool:
-        """重启所有服务"""
-        self.logger.info("🔄 重启所有服务...")
-        
-        # 先停止，再启动
-        if self.stop_all_services():
-            # 等待一段时间确保服务完全停止
-            time.sleep(3)
-            return self.start_all_services()
-        
-        return False
+    def stop_all_services(self) -> bool:
+        """停止所有服务（递归 kill 进程树，确保彻底杀死）"""
+        self.logger.info("🛑 开始停止所有外部服务...")
+        try:
+            # Consul集成：注销服务
+            if self.consul_manager and self.running_services:
+                self.logger.info("🔗 开始从Consul注销服务...")
+                self._deregister_services_from_consul(self.running_services)
+
+            import psutil
+            import time
+            killed = 0
+            for svc_name, info in self.running_services.items():
+                pid = info.get('pid')
+                if not pid:
+                    continue
+                try:
+                    p = psutil.Process(pid)
+                    # 先递归 SIGTERM
+                    children = p.children(recursive=True)
+                    for child in children:
+                        try:
+                            child.terminate()
+                        except Exception:
+                            pass
+                    try:
+                        p.terminate()
+                    except Exception:
+                        pass
+                    # 等待进程退出
+                    gone, alive = psutil.wait_procs([p]+children, timeout=3)
+                    # 还活着的全部 SIGKILL
+                    for proc in alive:
+                        try:
+                            proc.kill()
+                        except Exception:
+                            pass
+                    killed += 1
+                except Exception as e:
+                    self.logger.warning(f"无法终止服务 {svc_name} (pid={pid}): {e}")
+
+            # 使用新管理器停止本进程内的服务
+            if hasattr(self, 'manager') and hasattr(self.manager, 'stop_all_services'):
+                self.manager.stop_all_services()
+            else:
+                self.logger.warning("管理器不支持停止服务功能")
+
+            stopped_count = len(self.running_services)
+            self.running_services.clear()
+            self._save_service_state()
+
+            self.logger.info(f"✅ 服务停止完成！共停止 {stopped_count} 个服务，递归 kill {killed} 个进程树")
+            return True
+
+        except Exception as e:
+            self.logger.error(f"❌ 服务停止失败: {e}")
+            return False
 
 
 def print_status(status: Dict):
@@ -842,8 +853,8 @@ def main():
             else:
                 success = manager.stop_all_services()
         
-        elif args.action == 'restart':
-            success = manager.restart_all_services()
+        # elif args.action == 'restart':
+        #     success = manager.restart_all_services()
         
         elif args.action == 'status':
             status = manager.get_service_status()
