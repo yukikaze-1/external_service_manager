@@ -1,6 +1,7 @@
 consul:
   auto_register: true
   auto_start: true
+  register_wait_timeout: 180
   enabled: true
   health_check:
     deregister_critical_after: 30s

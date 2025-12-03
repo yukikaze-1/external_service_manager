@@ -45,7 +45,7 @@ external_services:
       run_in_background: true
       script: /home/yomu/GPTSoVits/server.py
       service_name: GPTSoVits_server
-      startup_timeout: 90
+      startup_timeout: 120
       use_python: true
 
   - SenseVoice_server:
@@ -57,7 +57,7 @@ external_services:
       run_in_background: true
       script: /home/yomu/SenseVoice/server.py
       service_name: SenseVoice_server
-      startup_timeout: 60
+      startup_timeout: 120
       use_python: true
 
   ip_port:

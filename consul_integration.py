@@ -14,6 +14,7 @@ import logging
 import subprocess
 import os
 import signal
+import socket
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass
 
@@ -657,6 +658,8 @@ class ConsulIntegrationManager:
         """
         self.logger = logger or logging.getLogger(__name__)
         self.config = consul_config
+        # 等待服务端口准备好的超时时间（秒），默认 120 秒
+        self.register_wait_timeout = int(consul_config.get("register_wait_timeout", 120))
         
         # 初始化 Consul 注册器
         self.registry = ConsulServiceRegistry(
@@ -694,10 +697,22 @@ class ConsulIntegrationManager:
         if not port:
             self.logger.warning(f"服务 {service_name} 缺少端口信息，跳过 Consul 注册")
             return False
-        
+
         # 获取健康检查URL（如果有的话）
         health_check_url = self._get_health_check_url(service_name, port)
-        
+
+        # 如果服务需要较长时间启动，先等待端口可连接再注册到 Consul。
+        # 这可以避免服务尚未就绪被 Consul 健康检查判定为不通过并在短时间后自动注销的问题。
+        try:
+            wait_ok = self._wait_for_port("127.0.0.1", int(port), timeout=self.register_wait_timeout)
+        except Exception:
+            wait_ok = False
+
+        if not wait_ok:
+            # 未能在超时时间内使端口可用，记录警告并跳过注册
+            self.logger.warning(f"服务 {service_name} 在 {self.register_wait_timeout}s 内未监听端口 {port}，跳过 Consul 注册")
+            return False
+
         return self.registry.register_service(
             service_name=service_name,
             host="127.0.0.1",
@@ -705,6 +720,28 @@ class ConsulIntegrationManager:
             health_check_url=health_check_url,
             tags=["external-service", service_info.get("type", "unknown")]
         )
+
+    def _wait_for_port(self, host: str, port: int, timeout: int = 120, interval: float = 1.0) -> bool:
+        """
+        等待指定 TCP 端口可连接。
+
+        Args:
+            host: 主机（通常为 127.0.0.1）
+            port: 端口号
+            timeout: 最大等待秒数
+            interval: 两次尝试间隔秒数
+
+        Returns:
+            bool: 如果端口在超时时间内可连接则返回 True，否则 False
+        """
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            try:
+                with socket.create_connection((host, port), timeout=interval):
+                    return True
+            except Exception:
+                time.sleep(interval)
+        return False
     
     def on_service_stopped(self, service_name: str, service_info: Dict[str, Any]) -> bool:
         """
