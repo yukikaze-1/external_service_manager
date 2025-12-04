@@ -44,7 +44,7 @@ ExternalServiceManager/                 # 项目根目录
 ├── service_manager.py                  # 主要的服务管理器
 ├── consul_integration.py              # Consul集成模块
 ├── manage_services.sh                  # 便捷的 bash 脚本
-├── config.yml                         # 主配置文件
+├── service_config.yml                         # 主配置文件
 ├── service_state.json                 # 服务状态文件（自动生成）
 ├── requirements.txt                   # Python依赖
 ├── (不再包含 `setup.py`，使用 `requirements.txt` 管理依赖)
@@ -68,7 +68,7 @@ ExternalServiceManager/                 # 项目根目录
 │       └── ConfigTools.py
 └── legacy/                           # 本地化的外部服务管理器组件
     ├── __init__.py
-    ├── config.yml                   # 外部服务配置
+   ├── service_config.yml                   # 外部服务配置
     ├── core/
     │   ├── __init__.py
     │   └── service_manager.py
@@ -121,12 +121,12 @@ Tools/ExternalServiceManager/
 ├── service_manager.py      # 主要的服务管理器
 ├── consul_integration.py   # Consul集成模块
 ├── manage_services.sh      # 便捷的 bash 脚本
-├── config.yml             # 主配置文件
+├── service_config.yml             # 主配置文件
 ├── service_state.json     # 服务状态文件（自动生成）
 ├── README.md              # 本文档
 ├── legacy/                # 本地化的外部服务管理器组件
 │   ├── __init__.py
-│   ├── config.yml         # 外部服务配置
+│   ├── service_config.yml         # 外部服务配置
 │   ├── core/
 │   │   ├── __init__.py
 │   │   └── service_manager.py
@@ -386,7 +386,7 @@ python3 service_manager.py --help
 ### 日志和状态文件
 - **服务日志**: `../../Log/ExternalService/*.log`
 - **状态文件**: `service_state.json`
-- **配置文件**: `config.yml`
+- **配置文件**: `service_config.yml`
 
 ## 🎉 成功案例
 
