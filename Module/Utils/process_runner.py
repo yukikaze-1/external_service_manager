@@ -32,10 +32,8 @@ class ProcessRunner:
 
     def _load_config(self):
         project_root = Path(__file__).parents[2]
-        cfg_path = Path(os.environ.get('AGENT_HOME', project_root)) / "Init" / "ExternalServiceInit" / "config.yml"
-        # 回退到仓库根的新命名配置文件 `service_config.yml`
-        if not cfg_path.exists():
-            cfg_path = project_root / "service_config.yml"
+        # 直接使用根目录的 `service_config.yml`，不再依赖旧的 Init 目录
+        cfg_path = project_root / "service_config.yml"
 
         if not cfg_path.exists():
             self.config = {'external_services': {'base_services': [], 'optional_services': []}}

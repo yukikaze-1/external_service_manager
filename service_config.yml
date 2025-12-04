@@ -18,7 +18,6 @@ external_services:
       service_name: Consul
       startup_timeout: 30
       use_python: false
-
   - ollama_server:
       args:
       - serve
@@ -31,7 +30,6 @@ external_services:
       service_name: ollama_server
       startup_timeout: 60
       use_python: false
-
   - GPTSoVits_server:
       args:
       - -a
@@ -47,7 +45,6 @@ external_services:
       service_name: GPTSoVits_server
       startup_timeout: 120
       use_python: true
-
   - SenseVoice_server:
       args: []
       conda_env: /home/yomu/data/anaconda3/envs/SenseVoice
@@ -59,7 +56,6 @@ external_services:
       service_name: SenseVoice_server
       startup_timeout: 120
       use_python: true
-
   ip_port:
   - ollama_server:
     - 127.0.0.1
@@ -73,31 +69,34 @@ external_services:
   - Consul:
     - 127.0.0.1
     - '8500'
-
-
   optional_services: null
-
   support_services:
   - ollama_server
   - GPTSoVits_server
   - SenseVoice_server
   - Consul
-
-
 health_check:
   check_interval: 2
   default_timeout: 30
-
 logging:
   format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
   level: INFO
-
 process_management:
   force_kill_timeout: 5
   graceful_shutdown_timeout: 10
-  
 retry_config:
   backoff_factor: 2.0
   base_delay: 1.0
   max_delay: 60.0
   max_retries: 3
+consul:
+  auto_register: true
+  auto_start: true
+  register_wait_timeout: 180
+  enabled: true
+  health_check:
+    deregister_critical_after: 30s
+    interval: 10s
+    timeout: 5s
+  service_prefix: ''
+  url: http://127.0.0.1:8500

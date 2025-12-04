@@ -251,50 +251,24 @@ class ExternalServiceManager:
         os.chdir(str(project_root))
         self.logger.info(f"工作目录从 {original_cwd} 切换到 {project_root}")
         
-        # 处理传统 Init 配置的兼容性
-        # 传统管理器会查找: ${AGENT_HOME}/Init/ExternalServiceInit/config.yml
-        init_config_path = project_root / "Init" / "ExternalServiceInit" / "config.yml"
-
-        # 仅在用户显式提供 --config，或 Init/ExternalServiceInit/config.yml 在调用前已存在时，才创建目录并复制文件。
-        init_previously_existed = init_config_path.exists()
-
-        target_config = init_config_path
-
+        # 不再创建或依赖旧的 Init/ExternalServiceInit 目录或配置文件。
+        # 配置来源统一为根目录下的 `service_config.yml`，除非用户通过 `--config` 显式指定其他路径。
         if config_path:
-            # 用户指定了配置文件，优先使用并复制到 Init 以兼容旧的外部管理器
             if not os.path.isabs(config_path):
                 config_path = os.path.join(str(project_root), config_path)
 
             if os.path.exists(config_path):
-                target_config.parent.mkdir(parents=True, exist_ok=True)
-                _copy_file(config_path, target_config, logger=self.logger)
                 self.logger.info(f"使用用户指定的配置文件: {config_path}")
             else:
                 self.logger.warning(f"用户指定的配置文件不存在: {config_path}")
         else:
-            # 未提供 config_path：如果之前已有 Init 配置，则在首次运行时用根目录的 service_config.yml 回填
-            if init_previously_existed:
-                # 如果目录/文件已经存在（由旧版本创建），无需额外操作
-                self.logger.info(f"Init 中已有配置文件，保留: {target_config}")
-            else:
-                # 如果之前不存在，则不要自动创建 Init 目录或复制文件。
-                # 程序会直接使用根目录的 `service_config.yml` 或回退 `config.yml`，无需创建兼容副本。
-                self.logger.info("Init/ExternalServiceInit/config.yml 在运行前不存在；跳过自动创建以避免污染仓库结构")
-
-        # 如果 target_config 现在存在，记录其路径以便调试；否则记录将使用根配置
-        if target_config.exists():
-            self.logger.info(f"传统管理器将使用配置文件: {target_config}")
-        else:
-            self.logger.info("传统管理器未检测到 Init 下的配置文件，使用根目录配置作为来源")
+            self.logger.info("使用根目录的 `service_config.yml` 作为配置来源")
     
     def _get_service_port_from_config(self, service_name: str) -> Optional[int]:
         """从配置文件获取服务的真实端口"""
         try:
-            # 优先从 Init/ExternalServiceInit/config.yml 查找配置，回退到仓库根的 `service_config.yml`
-            config_file = Path(__file__).parent / "Init" / "ExternalServiceInit" / "config.yml"
-            if not config_file.exists():
-                config_file = Path(__file__).parent / "service_config.yml"
-
+            # 仅从根目录的 `service_config.yml` 加载配置
+            config_file = Path(__file__).parent / "service_config.yml"
             if not config_file.exists():
                 return None
 
@@ -357,37 +331,20 @@ class ExternalServiceManager:
     
     def _load_consul_config(self) -> Dict:
         """加载Consul配置"""
-        # 首先尝试从新的 service_config.yml 加载 Consul 设置，若不存在或未包含，则回退到旧的 config.yml
+        # 仅从根目录的 `service_config.yml` 加载 Consul 设置
         project_root = Path(__file__).parent
-        primary = project_root / "service_config.yml"
-        fallback = project_root / "config.yml"
+        config_file = project_root / "service_config.yml"
 
-        merged = {}
-
-        try:
-            import yaml
-        except Exception:
-            self.logger.warning("yaml 模块不可用，无法解析 Consul 配置")
+        if not config_file.exists():
             return {"enabled": False}
 
         try:
-            if primary.exists():
-                with open(primary, 'r', encoding='utf-8') as f:
-                    cfg = yaml.safe_load(f) or {}
-                    merged.update(cfg)
+            import yaml
+            with open(config_file, 'r', encoding='utf-8') as f:
+                config = yaml.safe_load(f) or {}
 
-            if fallback.exists():
-                with open(fallback, 'r', encoding='utf-8') as f:
-                    cfg2 = yaml.safe_load(f) or {}
-                    # 让 primary 中的配置覆盖 fallback，但保留 fallback 中未定义的键
-                    for k, v in cfg2.items():
-                        if k not in merged:
-                            merged[k] = v
-
-            consul_config = merged.get("consul", {})
-            # 默认启用Consul集成
+            consul_config = config.get("consul", {})
             consul_config.setdefault("enabled", True)
-
             return consul_config
         except Exception as e:
             self.logger.warning(f"加载Consul配置失败: {e}")
