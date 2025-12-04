@@ -136,7 +136,7 @@ class ExternalServiceManager:
         Args:
             config_path: 配置文件路径，如果不提供则使用默认配置
         """
-        self.logger = setup_logger(name="ExternalServiceManager", log_path="Other")
+        self.logger = setup_logger(name="ExternalServiceManager", log_path="Log")
         
         # 设置配置路径环境变量，确保传统管理器能找到正确的配置
         self._setup_environment(config_path)
