@@ -30,6 +30,84 @@ from pathlib import Path
 current_dir = Path(__file__).parent
 sys.path.insert(0, str(current_dir))
 
+# ---------- 简化辅助函数 (module-level helpers) ----------
+def _safe_import(name: str):
+    try:
+        return __import__(name)
+    except Exception:
+        return None
+
+
+def _copy_file(src, dst, logger=None) -> bool:
+    try:
+        import shutil
+        shutil.copy2(str(src), str(dst))
+        if logger:
+            logger.info(f"复制配置文件: {src} -> {dst}")
+        return True
+    except Exception as e:
+        if logger:
+            logger.warning(f"复制文件失败 {src} -> {dst}: {e}")
+        return False
+
+
+def _load_yaml(path, logger=None):
+    yaml = _safe_import('yaml')
+    if yaml is None:
+        if logger:
+            logger.warning("yaml 模块不可用，无法解析配置文件")
+        return None
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            return yaml.safe_load(f)
+    except Exception as e:
+        if logger:
+            logger.warning(f"加载 yaml 失败 {path}: {e}")
+        return None
+
+
+def _terminate_process_tree(pid: int, logger=None) -> bool:
+    """尝试优雅终止指定 pid 的进程树，返回是否尝试过终止（不保证已停止）。"""
+    if not pid:
+        return False
+    try:
+        import psutil
+    except Exception:
+        psutil = None
+
+    if psutil is not None:
+        try:
+            p = psutil.Process(pid)
+            procs = [p] + p.children(recursive=True)
+            for proc in procs:
+                try:
+                    proc.terminate()
+                except Exception:
+                    pass
+            gone, alive = psutil.wait_procs(procs, timeout=3)
+            for a in alive:
+                try:
+                    a.kill()
+                except Exception:
+                    pass
+            return True
+        except psutil.NoSuchProcess:
+            return False
+        except Exception as e:
+            if logger:
+                logger.warning(f"通过 psutil 终止进程树失败 pid={pid}: {e}")
+            return False
+    else:
+        try:
+            os.kill(pid, signal.SIGTERM)
+            return True
+        except Exception as e:
+            if logger:
+                logger.warning(f"psutil 未安装且 kill(pid) 失败 pid={pid}: {e}")
+            return False
+
+# ---------- end helpers ----------
+
 # 旧的 `legacy` 实现已弃用。低层进程管理逻辑已抽取到 `Module.Utils.process_runner.ProcessRunner`。
 from Module.Utils.process_runner import ProcessRunner
 
@@ -103,6 +181,47 @@ class ExternalServiceManager:
             except Exception as e:
                 self.logger.warning(f"加载服务状态失败: {e}")
         return {}
+
+    def _enrich_service_entry(self, name: str, pid: Optional[int], svc_type: str):
+        """内部：丰富单个服务的运行时信息并写入 self.running_services"""
+        try:
+            import psutil
+        except Exception:
+            psutil = None
+
+        entry = self.running_services.get(name, {})
+        entry.setdefault('pid', pid)
+        entry['type'] = svc_type
+
+        # 端口优先从配置获取
+        try:
+            port = self._get_service_port_from_config(name)
+        except Exception:
+            port = None
+        if not port:
+            port = entry.get('port')
+        if not port or port == 'unknown':
+            self.logger.warning(f"服务 {name} 缺少有效端口信息，Consul 注册可能失败！")
+            port = None
+        entry['port'] = port
+
+        # 状态：检查 pid 是否存活
+        status = 'stopped'
+        if pid and pid > 0 and psutil is not None:
+            try:
+                p = psutil.Process(pid)
+                status = 'running' if p.is_running() and p.status() != psutil.STATUS_ZOMBIE else 'stopped'
+            except Exception:
+                status = 'stopped'
+        elif pid and pid > 0:
+            try:
+                os.kill(pid, 0)
+                status = 'running'
+            except Exception:
+                status = 'stopped'
+
+        entry['status'] = status
+        self.running_services[name] = entry
     
     def _save_service_state(self):
         """保存服务状态"""
@@ -143,11 +262,10 @@ class ExternalServiceManager:
             # 用户指定了配置文件
             if not os.path.isabs(config_path):
                 config_path = os.path.join(str(project_root), config_path)
-            
+
             if os.path.exists(config_path):
                 # 复制用户指定的配置文件
-                import shutil
-                shutil.copy2(config_path, str(target_config))
+                _copy_file(config_path, target_config, logger=self.logger)
                 self.logger.info(f"使用用户指定的配置文件: {config_path}")
             else:
                 self.logger.warning(f"用户指定的配置文件不存在: {config_path}")
@@ -156,8 +274,7 @@ class ExternalServiceManager:
         if not target_config.exists():
             local_config = Path(__file__).parent / "config.yml"
             if local_config.exists():
-                import shutil
-                shutil.copy2(str(local_config), str(target_config))
+                _copy_file(local_config, target_config, logger=self.logger)
                 self.logger.info(f"使用本地配置文件: {local_config}")
             else:
                 self.logger.error(f"找不到本地配置文件: {local_config}")
@@ -168,7 +285,6 @@ class ExternalServiceManager:
     def _get_service_port_from_config(self, service_name: str) -> Optional[int]:
         """从配置文件获取服务的真实端口"""
         try:
-            import yaml
             # 优先从 Init/ExternalServiceInit/config.yml 查找配置，回退到仓库根 config.yml
             config_file = Path(__file__).parent / "Init" / "ExternalServiceInit" / "config.yml"
             if not config_file.exists():
@@ -177,8 +293,9 @@ class ExternalServiceManager:
             if not config_file.exists():
                 return None
 
-            with open(config_file, 'r', encoding='utf-8') as f:
-                config = yaml.safe_load(f)
+            config = _load_yaml(config_file, logger=self.logger)
+            if not config:
+                return None
             
             # 从ip_port配置中获取端口
             ip_ports = config.get("external_services", {}).get("ip_port", [])
@@ -268,48 +385,10 @@ class ExternalServiceManager:
             except Exception:
                 psutil = None
 
-            # helper to set fields
-            def _enrich(name, pid, svc_type):
-                entry = self.running_services.get(name, {})
-                entry.setdefault('pid', pid)
-                entry['type'] = svc_type
-                # 端口优先从配置获取
-                try:
-                    port = self._get_service_port_from_config(name)
-                except Exception:
-                    port = None
-                # 如果端口获取失败，尝试从 entry 里找
-                if not port:
-                    port = entry.get('port')
-                # 如果端口依然无效，警告并设置为 None
-                if not port or port == 'unknown':
-                    self.logger.warning(f"服务 {name} 缺少有效端口信息，Consul 注册可能失败！")
-                    port = None
-                entry['port'] = port
-
-                # 状态：检查 pid 是否存活
-                status = 'stopped'
-                if pid and pid > 0 and psutil is not None:
-                    try:
-                        p = psutil.Process(pid)
-                        status = 'running' if p.is_running() and p.status() != psutil.STATUS_ZOMBIE else 'stopped'
-                    except Exception:
-                        status = 'stopped'
-                elif pid and pid > 0:
-                    # 没有 psutil 的退路：尝试 os.kill 0
-                    try:
-                        os.kill(pid, 0)
-                        status = 'running'
-                    except Exception:
-                        status = 'stopped'
-
-                entry['status'] = status
-                self.running_services[name] = entry
-
             for name, pid in (base_results or []):
-                _enrich(name, pid, 'base')
+                self._enrich_service_entry(name, pid, 'base')
             for name, pid in (optional_results or []):
-                _enrich(name, pid, 'optional')
+                self._enrich_service_entry(name, pid, 'optional')
 
             self._save_service_state()
             self.logger.info(f"✅ 服务启动完成！共启动 {len(self.running_services)} 个服务")
@@ -327,33 +406,7 @@ class ExternalServiceManager:
             self.logger.error(f"❌ 服务启动失败: {e}")
             return False
     
-    # def stop_all_services(self) -> bool:
-    #     """停止所有服务"""
-    #     self.logger.info("🛑 开始停止所有外部服务...")
-        
-    #     try:
-    #         # Consul集成：注销服务
-    #         if self.consul_manager and self.running_services:
-    #             self.logger.info("🔗 开始从Consul注销服务...")
-    #             self._deregister_services_from_consul(self.running_services)
-            
-    #         # 使用新管理器停止服务
-    #         if hasattr(self, 'manager') and hasattr(self.manager, 'stop_all_services'):
-    #             self.manager.stop_all_services()
-    #         else:
-    #             self.logger.warning("管理器不支持停止服务功能")
-            
-    #         # 清空状态
-    #         stopped_count = len(self.running_services)
-    #         self.running_services.clear()
-    #         self._save_service_state()
-            
-    #         self.logger.info(f"✅ 服务停止完成！共停止 {stopped_count} 个服务")
-    #         return True
-            
-    #     except Exception as e:
-    #         self.logger.error(f"❌ 服务停止失败: {e}")
-    #         return False
+    
     
     def get_service_status(self) -> Dict:
         """获取服务状态"""
@@ -566,26 +619,10 @@ class ExternalServiceManager:
                 # 方式1：按照记录的 pid 终止
                 if pid and psutil is not None:
                     try:
-                        p = psutil.Process(pid)
-                        children = p.children(recursive=True)
-                        for child in children:
-                            try:
-                                child.terminate()
-                            except Exception:
-                                pass
-                        try:
-                            p.terminate()
-                        except Exception:
-                            pass
-                        gone, alive = psutil.wait_procs([p] + children, timeout=3)
-                        for proc in alive:
-                            try:
-                                proc.kill()
-                            except Exception:
-                                pass
-                        stopped = True
-                        killed += 1
-                        self.logger.info(f"已基于 pid 终止服务 {svc_name} (pid={pid})")
+                        if _terminate_process_tree(pid, logger=self.logger):
+                            stopped = True
+                            killed += 1
+                            self.logger.info(f"已基于 pid 终止服务 {svc_name} (pid={pid})")
                     except psutil.NoSuchProcess:
                         self.logger.info(f"记录的 pid 不存在: {svc_name} (pid={pid})，将尝试按命令/端口匹配")
                     except Exception as e:
@@ -638,25 +675,12 @@ class ExternalServiceManager:
                         if candidates:
                             for proc in candidates:
                                 try:
-                                    children = proc.children(recursive=True)
-                                    for child in children:
-                                        try:
-                                            child.terminate()
-                                        except Exception:
-                                            pass
-                                    try:
-                                        proc.terminate()
-                                    except Exception:
-                                        pass
-                                    gone, alive = psutil.wait_procs([proc] + children, timeout=3)
-                                    for pleft in alive:
-                                        try:
-                                            pleft.kill()
-                                        except Exception:
-                                            pass
-                                    killed += 1
-                                    stopped = True
-                                    self.logger.info(f"通过命令/端口匹配终止服务 {svc_name} (pid={proc.pid})")
+                                    if _terminate_process_tree(proc.pid, logger=self.logger):
+                                        killed += 1
+                                        stopped = True
+                                        self.logger.info(f"通过命令/端口匹配终止服务 {svc_name} (pid={proc.pid})")
+                                    else:
+                                        self.logger.warning(f"尝试终止匹配进程失败 {svc_name} (pid={proc.pid})")
                                 except Exception as e:
                                     self.logger.warning(f"通过命令/端口终止进程失败 {svc_name} (pid={proc.pid}): {e}")
                         else:
